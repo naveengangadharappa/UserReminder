@@ -47,3 +47,7 @@ Route::post('/Electronics', 'ElectronicsController@postdata');
 
 Route::get('/AddVaccination', 'AddVaccinationController@index');
 
+Route::post('/AddVaccination', 'AddVaccinationController@postdata');
+
+Route::get('/getchild/{email}', 'AddVaccinationController@getchild');
+

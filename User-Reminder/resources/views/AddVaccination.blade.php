@@ -5,10 +5,26 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Children’s Vaccination </div>
+                <div class="panel-heading"><a href="#" id="addvaccin">Children’s Vaccination</a></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ url('/register') }}">
+                    <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ url('/AddVaccination') }}">
                         {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('ChildName') ? ' has-error' : '' }}">
+                            <label for="ChildName" class="col-md-4 control-label">Child Name</label>
+
+                            <div class="col-md-6">
+                                <select id="ChildName" class="form-control" name="ChildName">
+                                <option value=''></option>
+                                </select>
+                                
+                                @if ($errors->has('ChildName'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('ChildName') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('VaccinationName') ? ' has-error' : '' }}">
                             <label for="VaccinationName" class="col-md-4 control-label">Vaccination Name</label>
@@ -44,13 +60,14 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-user"></i> Upload Details
                                 </button>
+                                <input type="text" value="{{ Auth::user()->email }}" name="email" style="visibility:hidden">
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+   
 @endsection

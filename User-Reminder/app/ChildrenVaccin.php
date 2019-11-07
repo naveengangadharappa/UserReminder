@@ -8,6 +8,6 @@ class ChildrenVaccin extends Model
 {
     //
     protected $fillable = [
-        'ChildName', 'DateOfBirth',
+        'ChildName', 'DateOfBirth','ChildId',
     ];
 }

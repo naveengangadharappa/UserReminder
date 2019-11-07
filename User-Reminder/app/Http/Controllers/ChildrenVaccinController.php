@@ -25,7 +25,7 @@ class ChildrenVaccinController extends Controller
             'DateOfBirth' => 'required',
         ]);
         
-        $mapdata=system('date +%s%N');
+        $mapdata=(random_int(10,9999976)-random_int(10,4000091))/3;
         $Email=$request->get('email');
         $choice="child";
         $map=new map();
@@ -36,6 +36,6 @@ class ChildrenVaccinController extends Controller
             'ChildName' => $request->get('ChildName'),
             'DateOfBirth'=> $request->get('DateOfBirth')
         ]);
-        return redirect('/Electronics');
+        return redirect('/ChildrenVaccin');
     }
 }

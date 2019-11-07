@@ -8,6 +8,6 @@ class AddVaccination extends Model
 {
     //
     protected $fillable = [
-        'PolicyNumber', 'MediclaimCompany','DateOfPurchase', 'PremiumAmount','ReminderFrequency','PolicyDocument',
+        'VaccinationId', 'VaccinationName','VaccinationDuedate',
     ];
 }

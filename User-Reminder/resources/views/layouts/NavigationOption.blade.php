@@ -65,15 +65,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
-    
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
    <script>$(document).ready(function() {
     $('#PremiumPayingTerm').on('change',function()
     {
         console.log("change request entered");
         var ppt = $("#PremiumPayingTerm option:selected").html();
-        var Optiontext=array("");
-        var Optionvalue="";
         $("#ReminderFrequency").find('option').remove();
         if(ppt==='Monthly')
         {
@@ -102,6 +99,33 @@
         $('#ReminderFrequency').append(new Option("15 days before Policy expire", "15"));
         $('#ReminderFrequency').append(new Option("1 days before Policy expire", "1"));
         }   
+    });
+
+    $('#ChildName').on('click',function(event)
+    {
+        event.preventDefault();
+        console.log("entered");
+        $.ajax({
+            
+            url: "{{ url('/getchild/{email}') }}",
+            method: "get",
+            data: { email: "ganveenkumar18.ng@gamil.com" },
+            success: function(response)
+                {
+                    var child = $("#ChildName").html();
+                    $("#ChildName").find('option').remove();
+                    var childnames=response.split(",");
+                        i=0
+                        while(i<childnames.length-1)
+                        {
+                        $('#ChildName').append(new Option(childnames[i], childnames[i+1]));
+                        console.log(childnames[i]);
+                        console.log(childnames[i+1]);
+                        i=i+2;
+                        }
+                }
+        })
+        
     });
    });
     </script>
