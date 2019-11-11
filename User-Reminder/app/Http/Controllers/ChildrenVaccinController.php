@@ -25,14 +25,12 @@ class ChildrenVaccinController extends Controller
             'DateOfBirth' => 'required',
         ]);
         
-        $mapdata=(random_int(10,9999976)-random_int(10,4000091))/3;
+        $ChildId=(random_int(10,9999976)-random_int(10,4000091))/3;
         $Email=$request->get('email');
-        $choice="child";
-        $map=new map();
-        $map->updatemap($Email,$choice,$mapdata);
 
         ChildrenVaccin::create([
-            'ChildId' =>$mapdata,
+            'email'=>$Email,
+            'ChildId' =>$ChildId,
             'ChildName' => $request->get('ChildName'),
             'DateOfBirth'=> $request->get('DateOfBirth')
         ]);

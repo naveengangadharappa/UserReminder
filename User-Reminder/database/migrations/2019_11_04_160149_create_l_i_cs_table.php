@@ -14,6 +14,7 @@ class CreateLICsTable extends Migration
     {
         Schema::create('l_i_c_s', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('email');
             $table->String('Policynumber')->unique();
             $table->String('PolicyHolder');
             $table->String('LicPlanName');

@@ -14,6 +14,7 @@ class CreateChildrenVaccinsTable extends Migration
     {
         Schema::create('children_vaccins', function (Blueprint $table) {
             $table->increments('id');
+            $table->String('email');
             $table->String('ChildId')->unique();
             $table->String('ChildName');
             $table->date('DateOfBirth');

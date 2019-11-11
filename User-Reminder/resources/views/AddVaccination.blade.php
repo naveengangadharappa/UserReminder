@@ -60,7 +60,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-user"></i> Upload Details
                                 </button>
-                                <input type="text" value="{{ Auth::user()->email }}" name="email" style="visibility:hidden">
+                                <input type="text" value="{{ Auth::user()->email }}"id="email" name="email" style="visibility:hidden">
                             </div>
                         </div>
                     </form>

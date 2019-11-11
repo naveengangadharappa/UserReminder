@@ -14,11 +14,15 @@ class AddVaccinationController extends Controller
         return view('AddVaccination');
     }
 
-    public function getchild(Request $request)
+    public function callreminder()
     {
-        //$Email=$request->get('email');
-        //$Email=$data->email;
-        $Email="gnaveenkumar18.ng@gmail.com";
+        $map=new map();
+        $date=$map->testReminder();
+        echo $date;
+    }
+    public function getchild($email)
+    {
+        $Email=$email;
         $map=new map();
         $childNames=array();
         $childdetails=array();
@@ -42,13 +46,9 @@ class AddVaccinationController extends Controller
             'VaccinationDuedate' => 'required',
         ]);
         
-        $ChildId=$request->get('ChildName');
         $VaccinationId=(random_int(10,99999999)-random_int(10,33339999))/3;
-        $Email=$request->get('email');
-        $map=new map();
-        $map->insertvaccinmap($Email,$ChildId,$VaccinationId);
-
         AddVaccination::create([
+            'ChildId'=>$request->get('ChildName'),
             'VaccinationId' =>$VaccinationId,
             'VaccinationName' => $request->get('VaccinationName'),
             'VaccinationDuedate'=> $request->get('VaccinationDuedate'),

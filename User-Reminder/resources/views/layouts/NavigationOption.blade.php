@@ -48,10 +48,10 @@
                 
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
-                    <li><a href="{{ url('/Mediclaim') }}">Mediclaim Policy</a></li>
-                        <li><a href="{{ url('/LIC') }}">LIC Polocies</a></li>
-                        <li><a href="{{ url('/Electronics') }}">Electronics Goods </a></li>
-                        <li><a href="{{ url('/VehicleService') }}">Vehicle Servicing</a></li>
+                    <li><a href="{{ url('/Mediclaim/,0') }}">Mediclaim Policy</a></li>
+                        <li><a href="{{ url('/LIC/,0') }}">LIC Polocies</a></li>
+                        <li><a href="{{ url('/Electronics/,0') }}">Electronics Goods </a></li>
+                        <li><a href="{{ url('/VehicleServiceing/,0') }}">Vehicle Servicing</a></li>
                         <li><a href="{{ url('/ChildrenVaccin ') }}">Children Vaccenation Reminder</a></li>
                 </ul>
             </div>
@@ -106,10 +106,9 @@
         event.preventDefault();
         console.log("entered");
         $.ajax({
-            
-            url: "{{ url('/getchild/{email}') }}",
+            url: "/getchild/{{ Auth::user()->email}}",
             method: "get",
-            data: { email: "ganveenkumar18.ng@gamil.com" },
+           // data: "gnaveenkumar18.ng@gmail.com",
             success: function(response)
                 {
                     var child = $("#ChildName").html();

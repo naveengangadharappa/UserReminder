@@ -19,7 +19,7 @@ class Inspire extends Command
      *
      * @var string
      */
-    protected $description = 'Display an inspiring quote';
+    protected $description = 'Send a Daily email to users with a Reminder';
 
     /**
      * Execute the console command.

@@ -8,6 +8,6 @@ class AddVaccination extends Model
 {
     //
     protected $fillable = [
-        'VaccinationId', 'VaccinationName','VaccinationDuedate',
+        'ChildId','VaccinationId', 'VaccinationName','VaccinationDuedate',
     ];
 }

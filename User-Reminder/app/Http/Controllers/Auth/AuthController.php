@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\model\map;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -66,13 +67,20 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         $Email=$data['email'];
-        $MediClaimPolicyNumber='';
+        /*$MediClaimPolicyNumber='';
         $LicPolicyNumber='';
         $VehicleNumber='';
         $ItemNumber='';
         $ChildId='';
         $map=new map();
-        $map->insert($Email,$MediClaimPolicyNumber,$LicPolicyNumber,$VehicleNumber,$ItemNumber,$ChildId);
+        $map->insert($Email,$MediClaimPolicyNumber,$LicPolicyNumber,$VehicleNumber,$ItemNumber,$ChildId);*/
+        /*$data = array('name'=>"Virat Gandhi");
+   
+      Mail::send(['text'=>'home'], $data, function($message) {
+         $message->to('gnaveenkumar18.ng@gmail.com', 'your registration process is complete ')->subject
+            ('Customer Reminder Registration');
+         $message->from('booksdealingsystem@gmail.com','Virat Gandhi');
+      });*/
         return User::create([
             'name' => $data['name'],
             'Mobilenumber' => $data['Mobilenumber'],

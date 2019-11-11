@@ -14,6 +14,7 @@ class CreateVehicleServicesTable extends Migration
     {
         Schema::create('vehicle_services', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('email');
             $table->String('VehicleType');
             $table->String('VehicleNumber')->unique();
             $table->date('DateOfPurchase');

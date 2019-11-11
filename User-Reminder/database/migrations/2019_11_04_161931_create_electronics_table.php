@@ -14,10 +14,11 @@ class CreateElectronicsTable extends Migration
     {
         Schema::create('electronics', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('email');
             $table->String('ItemName');
             $table->String('Itemnumber')->unique();
             $table->date('DateOfPurchase');
-            $table->date('WarrantyPeriod');
+            $table->String('WarrantyPeriod');
             $table->String('ReminderFrequency');
             $table->timestamps();
         });

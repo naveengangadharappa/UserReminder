@@ -14,6 +14,7 @@ class CreateMediclaimsTable extends Migration
     {
         Schema::create('mediclaims', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('email');
             $table->string('PolicyNumber')->unique();
             $table->string('MediclaimCompany');
             $table->string('DateOfPurchase');

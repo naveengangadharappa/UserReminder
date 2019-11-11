@@ -8,6 +8,6 @@ class LIC extends Model
 {
     //
     protected $fillable = [
-        'Policynumber', 'PolicyHolder','LicPlanName', 'SumAssuredAmount','PremiumAmount','PremiumPayingTerm','ReminderFrequency',
+        'email','Policynumber', 'PolicyHolder','LicPlanName', 'SumAssuredAmount','PremiumAmount','PremiumPayingTerm','ReminderFrequency',
     ];
 }

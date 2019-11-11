@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Children’s Registration </div>
+                <div class="panel-heading">Children’s Registration <a href="displayall/{{ Auth::user()->email.',child' }}">View details</a></div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/ChildrenVaccin') }}">
                         {{ csrf_field() }}

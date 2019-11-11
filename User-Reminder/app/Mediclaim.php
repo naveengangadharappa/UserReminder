@@ -13,7 +13,7 @@ class Mediclaim extends Model
      * @var array
      */
     protected $fillable = [
-        'PolicyNumber', 'MediclaimCompany','DateOfPurchase', 'PremiumAmount','ReminderFrequency',
+        'email','PolicyNumber', 'MediclaimCompany','DateOfPurchase', 'PremiumAmount','ReminderFrequency',
     ];
 
 }
