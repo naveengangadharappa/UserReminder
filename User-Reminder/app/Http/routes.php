@@ -23,7 +23,7 @@ Route::get('/NavigationOption', 'NavigationOptionController@index');
 
 Route::get('/Adminlogin', 'AdminController@index');
 
-Route::get('/ChildrenVaccin', 'ChildrenVaccinController@index');
+Route::get('/ChildrenVaccin/{ids}', 'ChildrenVaccinController@index');
 
 Route::post('/ChildrenVaccin', 'ChildrenVaccinController@postdata');
 
@@ -45,11 +45,9 @@ Route::get('/Electronics/{ids}', 'ElectronicsController@index');
 
 Route::post('/Electronics', 'ElectronicsController@postdata');
 
-Route::get('/AddVaccination', 'AddVaccinationController@index');
+Route::get('/AddVaccination/{Email}', 'AddVaccinationController@index');
 
 Route::post('/AddVaccination', 'AddVaccinationController@postdata');
-
-Route::get('/getchild/{email}', 'AddVaccinationController@getchild');
 
 Route::get('/testreminder', 'AddVaccinationController@callreminder');
 
@@ -59,11 +57,11 @@ Route::get('/displayall/deleteuser/{id}', 'displayMedical@deleteuser');
 
 Route::post('/getchild', 'AddVaccinationController@getchild');
 
-Route::get('/displayall/mediclaim/{id}', 'MediClaimController@index');
+/*Route::get('/displayall/mediclaim/{id}', 'MediClaimController@index');
 
 Route::get('/displayall/electronics/', 'ElectronicsController@index');
 
 Route::get('/displayall/vehicle/', 'VehicleServiceController@index');
 
-Route::get('/displayall/lic/', 'LICController@index');
+Route::get('/displayall/lic/', 'LICController@index');*/
 

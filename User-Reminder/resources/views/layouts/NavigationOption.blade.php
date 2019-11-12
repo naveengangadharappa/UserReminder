@@ -52,7 +52,7 @@
                         <li><a href="{{ url('/LIC/,0') }}">LIC Polocies</a></li>
                         <li><a href="{{ url('/Electronics/,0') }}">Electronics Goods </a></li>
                         <li><a href="{{ url('/VehicleServiceing/,0') }}">Vehicle Servicing</a></li>
-                        <li><a href="{{ url('/ChildrenVaccin ') }}">Children Vaccenation Reminder</a></li>
+                        <li><a href="{{ url('/ChildrenVaccin/,0') }}">Children Vaccenation Reminder</a></li>
                 </ul>
             </div>
         </div>
@@ -101,31 +101,7 @@
         }   
     });
 
-    $('#ChildName').on('click',function(event)
-    {
-        event.preventDefault();
-        console.log("entered");
-        $.ajax({
-            url: "/getchild/{{ Auth::user()->email}}",
-            method: "get",
-           // data: "gnaveenkumar18.ng@gmail.com",
-            success: function(response)
-                {
-                    var child = $("#ChildName").html();
-                    $("#ChildName").find('option').remove();
-                    var childnames=response.split(",");
-                        i=0
-                        while(i<childnames.length-1)
-                        {
-                        $('#ChildName').append(new Option(childnames[i], childnames[i+1]));
-                        console.log(childnames[i]);
-                        console.log(childnames[i+1]);
-                        i=i+2;
-                        }
-                }
-        })
-        
-    });
+   
    });
     </script>
 

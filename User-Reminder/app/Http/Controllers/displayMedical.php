@@ -75,10 +75,10 @@ class displayMedical extends Controller
             return redirect('/VehicleServiceing/,0');
             break;
             case 'child':$data=DB::connection('mysql')->delete("delete from add_vaccinations where VaccinationId=?",[$id]);
-            $childid=$arr[2];
-            $data=DB::connection('mysql')->delete("delete from children_vaccins where ChildId=?",[$childid]);
+            //$childid=$arr[2];
+            //$data=DB::connection('mysql')->delete("delete from children_vaccins where ChildId=?",[$childid]);
             break;
         }
-        return redirect('/ChildrenVaccin');
+        return redirect('/ChildrenVaccin/,0');
     }
 }

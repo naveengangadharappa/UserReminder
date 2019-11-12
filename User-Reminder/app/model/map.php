@@ -3,6 +3,7 @@
 namespace App\model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Mail;
 
 class map extends Model
 {
@@ -25,7 +26,7 @@ class map extends Model
     public function testReminder()
     {
         $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,PolicyNumber,MediclaimCompany,email from mediclaims");
-        $Policyno=array();
+        $policyno=array();
         $cnt=0;
         $emailarray=array();
         $mediclaimcompany=array();
@@ -38,7 +39,8 @@ class map extends Model
                 $date2 = date_create($values->DateOfPurchase);
                 $intverl=date_diff($date1,$date2);
                 $c=$intverl->format("%a");
-                if(365-$c==$values->ReminderFrequency)
+                echo $c;
+                if(($c+365)-365==$values->ReminderFrequency)
                 {
                      $policyno[$cnt]=$values->PolicyNumber;
                      $emailarray[$cnt]=$values->email;
@@ -46,12 +48,18 @@ class map extends Model
                      $cnt++;
                 }
             }
-            for($i=0;$i<count($policyno);$i++)
+        for($i=0;$i<count($policyno);$i++)
             {
                 echo $emailarray[$i];
                 echo $mediclaimcompany[$i];
                 echo $policyno[$i];
-                //mailing code;
+                $email=array('email'=>$emailarray[$i],'company'=>$mediclaimcompany[$i],'policy'=>$policyno[$i]);
+                Mail::send([],$email, function ($message) use ($email)  {
+                    $message->to($email['email']);
+                    $message->subject("Reminder");
+                    $message->setBody('Hi, welcome user! naveen g these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
+                 });
             }
+            echo "completed";
     }
 }

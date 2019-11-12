@@ -5,18 +5,20 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" id="addvaccin">Children’s Vaccination</a></div>
+                <div class="panel-heading">Register Vaccination</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ url('/AddVaccination') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('ChildName') ? ' has-error' : '' }}">
                             <label for="ChildName" class="col-md-4 control-label">Child Name</label>
-
                             <div class="col-md-6">
                                 <select id="ChildName" class="form-control" name="ChildName">
-                                <option value=''></option>
+                                @foreach($data as $Value)
+                                <option value='{{ $Value->ChildId }}'>{{ $Value->ChildName }}</option>
+                                @endforeach
                                 </select>
+                               
                                 
                                 @if ($errors->has('ChildName'))
                                     <span class="help-block">

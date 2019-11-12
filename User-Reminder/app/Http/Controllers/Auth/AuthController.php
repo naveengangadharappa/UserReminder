@@ -67,20 +67,10 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         $Email=$data['email'];
-        /*$MediClaimPolicyNumber='';
-        $LicPolicyNumber='';
-        $VehicleNumber='';
-        $ItemNumber='';
-        $ChildId='';
-        $map=new map();
-        $map->insert($Email,$MediClaimPolicyNumber,$LicPolicyNumber,$VehicleNumber,$ItemNumber,$ChildId);*/
-        /*$data = array('name'=>"Virat Gandhi");
-   
-      Mail::send(['text'=>'home'], $data, function($message) {
-         $message->to('gnaveenkumar18.ng@gmail.com', 'your registration process is complete ')->subject
-            ('Customer Reminder Registration');
-         $message->from('booksdealingsystem@gmail.com','Virat Gandhi');
-      });*/
+      Mail::send('Registeremail', $data, function($message) use ($data) {
+         $message->to($data['email']);
+         $message->subject('Esds Customer Reminder Service Registartion ');
+      });
         return User::create([
             'name' => $data['name'],
             'Mobilenumber' => $data['Mobilenumber'],

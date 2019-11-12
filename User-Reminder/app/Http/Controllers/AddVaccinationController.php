@@ -5,13 +5,15 @@ use App\AddVaccination;
 use Illuminate\Http\Request;
 use App\model\map;
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 
 class AddVaccinationController extends Controller
 {
     //
-    public function index()
+    public function index($Email)
     {
-        return view('AddVaccination');
+        $data=DB::connection('mysql')->select("select ChildId,ChildName from children_vaccins where Email=?",[$Email]);
+        return view('AddVaccination',compact('data'));
     }
 
     public function callreminder()
@@ -53,6 +55,6 @@ class AddVaccinationController extends Controller
             'VaccinationName' => $request->get('VaccinationName'),
             'VaccinationDuedate'=> $request->get('VaccinationDuedate'),
         ]);
-        return redirect('/AddVaccination');
+        return redirect('/ChildrenVaccin/,0');
     }
 }
