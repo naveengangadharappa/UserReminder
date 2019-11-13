@@ -25,7 +25,9 @@ Route::get('/Adminlogin', 'AdminController@index');
 
 Route::post('/Adminlogin', 'AdminController@verifiylogin');
 
-Route::get('/dashboard', 'dashboardController@index');
+Route::get('/dashboard/{status}', 'dashboardController@index');
+
+Route::get('/CustomerManagement', 'CustomerManagement@index');
 
 Route::get('/ChildrenVaccin/{ids}', 'ChildrenVaccinController@index');
 

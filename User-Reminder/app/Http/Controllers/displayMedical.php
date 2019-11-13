@@ -78,6 +78,13 @@ class displayMedical extends Controller
             //$childid=$arr[2];
             //$data=DB::connection('mysql')->delete("delete from children_vaccins where ChildId=?",[$childid]);
             break;
+            case 'user':$data=DB::connection('mysql')->delete("delete from users where email=?",[$id]);
+            $data=DB::connection('mysql')->delete("delete from vehicle_services where email=?",[$id]);
+            $data=DB::connection('mysql')->delete("delete from electronics where email=?",[$id]);
+            $data=DB::connection('mysql')->delete("delete from l_i_c_s where email=?",[$id]);
+            $data=DB::connection('mysql')->delete("delete from mediclaims where email=?",[$id]);
+            $data=DB::connection('mysql')->delete("delete from children_vaccins where email=?",[$id]);
+        break;
         }
         return redirect('/ChildrenVaccin/,0');
     }

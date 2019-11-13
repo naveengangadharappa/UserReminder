@@ -9,8 +9,15 @@ use App\Http\Requests;
 class dashboardController extends Controller
 {
     //
-    public function index()
+    public function index($status)
     {
-        return view('Admin/dashboard');
+        switch($status)
+        {
+            case 1:return view('Admin/dashboard');
+            break;
+            case 0:return view('auth/login');
+            break;
+        }
+        
     }
 }

@@ -27,7 +27,7 @@ class AdminController extends Controller
                 {
                     $flag=true;
                     echo "login success";
-                    return redirect('/dashboard');
+                    return redirect('/dashboard/1')->with('email',$request->get('email'));
                 }
                 else{
                     echo "login failed";
