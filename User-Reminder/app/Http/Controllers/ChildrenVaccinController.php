@@ -52,6 +52,7 @@ class ChildrenVaccinController extends Controller
             'ChildName' => $request->get('ChildName'),
             'DateOfBirth'=> $request->get('DateOfBirth')
         ]);
+        return redirect('/ChildrenVaccin/,0')->with('success',"Registration successfull");
        }
        else{
         $this->validate($request,[
@@ -64,7 +65,8 @@ class ChildrenVaccinController extends Controller
         $id=$request->get('PolicyNumber');
         DB::connection('mysql')->select("update children_vaccins set ChildName =?,DateOfBirth=? where ChildId=?",[$request->get('ChildName'),$request->get('DateOfBirth'),$request->get('ChildId')]);
         DB::connection('mysql')->select("update add_vaccinations set VaccinationName =?,VaccinationDuedate=? where VaccinationId=?",[$request->get('VaccinationName'),$request->get('VaccinationDuedate'),$request->get('VaccinId')]);  
-       }
-        return redirect('/ChildrenVaccin/,0');
+        return redirect('/ChildrenVaccin/,0')->with('success',"updatadion successfull");  
+    }
+       
     }
 }

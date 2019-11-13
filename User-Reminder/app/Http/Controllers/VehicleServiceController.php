@@ -60,6 +60,7 @@ class VehicleServiceController extends Controller
             'Servicing3DueDate' => $request->get('Servicing3DueDate'),
             'PUCExpirydate' => $request->get( 'PUCExpirydate')
         ]);
+        return redirect('/VehicleServiceing/,0')->with('success',"Registration successfull");
        }
        else{
         $this->validate($request,[
@@ -73,7 +74,7 @@ class VehicleServiceController extends Controller
         ]);
         $id=$request->get('VehicleNumber');
         DB::connection('mysql')->select("update vehicle_services set VehicleType =?,DateOfPurchase=?,Servicing1DueDate=?,Servicing2DueDate=?,Servicing3DueDate=?,PUCExpirydate=? where VehicleNumber=?",[$request->get('VehicleType'),$request->get('DateOfPurchase'),$request->get('Servicing1DueDate'),$request->get('Servicing2DueDate'),$request->get('Servicing3DueDate'),$request->get( 'PUCExpirydate'),$id]);  
-       }
-        return redirect('/VehicleServiceing/,0');
-}
+        return redirect('/VehicleServiceing/,0')->with('success',"updatadion successfull");  
+    }
+}     
 }

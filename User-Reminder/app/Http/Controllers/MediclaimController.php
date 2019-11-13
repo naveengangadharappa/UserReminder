@@ -59,7 +59,8 @@ class MediclaimController extends Controller
             'DateOfPurchase' => $request->get('DateOfPurchase'),
             'ReminderFrequency' => $request->get('ReminderFrequency'),
             'PremiumAmount' => $request->get('PremiumAmount')
-            ]);  
+            ]); 
+            return redirect('/Mediclaim/,0')->with('success',"Policy Registration successfull"); 
             }
             else{
                 $this->validate($request,[
@@ -85,8 +86,8 @@ class MediclaimController extends Controller
                 unlink($docpath);*/
                 $document->move(public_path("document\mediclaim"),$documentname);
                 }
-                
+                return redirect('/Mediclaim/,0')->with('success',"Policy Details updated successfull");  
             }
-            return redirect('/Mediclaim/,0');
+            
 }
 }

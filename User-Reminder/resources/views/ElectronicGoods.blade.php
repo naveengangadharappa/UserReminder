@@ -9,6 +9,11 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ url('/Electronics') }}">
                         {{ csrf_field() }}
+                        @if($message=Session::get('success'))
+                <div class='alert alert-success'>
+                <p>{{$message}}</p>
+                </div>
+                @endif
                         @if($flg=='insert')
                         <div class="form-group{{ $errors->has('ItemName') ? ' has-error' : '' }}">
                             <label for="ItemName" class="col-md-4 control-label">Item Name</label>
@@ -60,8 +65,8 @@
                             <div class="col-md-6">
                                 <select id="WarrantyPeriod" class="form-control" name="WarrantyPeriod">
                                 <option value=''></option>
-                                <option value='30'>3 Monthly</option>
-                                <option value='180'>6 Monthly</option>
+                                <option value='91'>3 Months</option>
+                                <option value='182'>6 Months</option>
                                 <option value='1'>1 Year</option>
                                 <option value='2'>2 Year</option>
                                 <option value='3'>3 Year</option>
@@ -179,8 +184,8 @@
                             <div class="col-md-6">
                                 <select id="WarrantyPeriod" class="form-control" name="WarrantyPeriod">
                                 <option value='{{$Value->WarrantyPeriod}}'>@if($Value->WarrantyPeriod > 10) <p>{{$Value->WarrantyPeriod}}</p>  days @endif @if($Value->WarrantyPeriod < 10)  <p>{{$Value->WarrantyPeriod}}</p>  year @endif</option>
-                                <option value='30'>3 Monthly</option>
-                                <option value='180'>6 Monthly</option>
+                                <option value='91'>3 Monthly</option>
+                                <option value='182'>6 Monthly</option>
                                 <option value='1'>1 Year</option>
                                 <option value='2'>2 Year</option>
                                 <option value='3'>3 Year</option>

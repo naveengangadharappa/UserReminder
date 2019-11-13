@@ -7,6 +7,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">{{$head}}<a href="../displayall/{{ Auth::user()->email.',mediclaim' }}" class="btn float-right">View details</a></div>
                 <div class="panel-body">
+                @if($message=Session::get('success'))
+                <div class='alert alert-success'>
+                <p>{{$message}}</p>
+                </div>
+                @endif
                     <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ url('/Mediclaim') }}">
                         {{ csrf_field() }}
                         @if($flg=='insert')

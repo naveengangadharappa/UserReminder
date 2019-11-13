@@ -9,6 +9,11 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/ChildrenVaccin') }}">
                         {{ csrf_field() }}
+                        @if($message=Session::get('success'))
+                <div class='alert alert-success'>
+                <p>{{$message}}</p>
+                </div>
+                @endif
                         @if($flg=='insert')
                         <div class="form-group{{ $errors->has('ChildName') ? ' has-error' : '' }}">
                             <label for="ChildName" class="col-md-4 control-label">Child Name</label>

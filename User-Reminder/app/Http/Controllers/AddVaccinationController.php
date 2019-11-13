@@ -55,6 +55,6 @@ class AddVaccinationController extends Controller
             'VaccinationName' => $request->get('VaccinationName'),
             'VaccinationDuedate'=> $request->get('VaccinationDuedate'),
         ]);
-        return redirect('/ChildrenVaccin/,0');
+        return redirect('/ChildrenVaccin/,0')->with('success',"Vaccination Registered successfull");
     }
 }

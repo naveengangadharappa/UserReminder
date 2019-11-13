@@ -70,6 +70,7 @@ class ElectronicsController extends Controller
             'ReminderFrequency' => $request->get('ReminderFrequency'),
             'WarrantyPeriod' => $request->get('WarrantyPeriod')
         ]);
+        return redirect('/Electronics/,0')->with('success',"Registration successfull");
        }
        else{
         $this->validate($request,[
@@ -94,8 +95,8 @@ class ElectronicsController extends Controller
         unlink($docpath);*/
         $document->move(public_path("document\mediclaim"),$documentname);
         }
-        
+        return redirect('/Electronics/,0')->with('success',"Updation successfull");
        }
-        return redirect('/Electronics/,0');
+        
     }
 }

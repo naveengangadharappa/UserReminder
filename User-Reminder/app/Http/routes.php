@@ -23,6 +23,10 @@ Route::get('/NavigationOption', 'NavigationOptionController@index');
 
 Route::get('/Adminlogin', 'AdminController@index');
 
+Route::post('/Adminlogin', 'AdminController@verifiylogin');
+
+Route::get('/dashboard', 'dashboardController@index');
+
 Route::get('/ChildrenVaccin/{ids}', 'ChildrenVaccinController@index');
 
 Route::post('/ChildrenVaccin', 'ChildrenVaccinController@postdata');

@@ -69,6 +69,7 @@ class LICController extends Controller
             'PremiumPayingTerm' => $request->get('PremiumPayingTerm'),
             'ReminderFrequency' => $request->get( 'ReminderFrequency')
         ]); 
+        return redirect('/LIC/,0')->with('success',"Policy Details Registered successfull");
        }
        else{
         $this->validate($request,[
@@ -94,8 +95,8 @@ class LICController extends Controller
         unlink($docpath);*/
         $document->move(public_path("document\Lic"),$documentname);
         }
-        
+        return redirect('/LIC/,0')->with('success',"Policy Details updated successfull");
        } 
-        return redirect('/LIC/,0');
+       
     }
 }
