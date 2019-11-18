@@ -1,6 +1,22 @@
 @extends('layouts.NavigationOption')
 
 @section('content')
+@if (Auth::guest())
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dashboard</div>
+
+                <div class="panel-body">
+                <li><a href="{{ url('/home') }}">Home</a></li>
+                    You are Not Authorized  please logged in!
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+@else
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -52,6 +68,20 @@
                                 @if ($errors->has('LicPlanName'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('LicPlanName') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <div class="form-group{{ $errors->has('DateOfPurchase') ? ' has-error' : '' }}">
+                            <label for="DateOfPurchase" class="col-md-4 control-label">Date Of Purchase</label>
+
+                            <div class="col-md-6">
+                                <input id="DateOfPurchase" type="date" class="form-control" name="DateOfPurchase" value="{{ old('DateOfPurchase') }}">
+
+                                @if ($errors->has('DateOfPurchase'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('DateOfPurchase') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -146,7 +176,7 @@
                             <label for="Policynumber" class="col-md-4 control-label">Policy Number</label>
 
                             <div class="col-md-6">
-                                <input id="Policynumber" type="text" class="form-control" name="Policynumber" value="{{ $Value->Policynumber }}">
+                                <input id="Policynumber" type="text" class="form-control" name="Policynumber" value="{{ $Value->Policynumber }}" readonly>
 
                                 @if ($errors->has('Policynumber'))
                                     <span class="help-block">
@@ -179,6 +209,20 @@
                                 @if ($errors->has('LicPlanName'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('LicPlanName') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('DateOfPurchase') ? ' has-error' : '' }}">
+                            <label for="DateOfPurchase" class="col-md-4 control-label">Date Of Purchase</label>
+
+                            <div class="col-md-6">
+                                <input id="DateOfPurchase" type="date" class="form-control" name="DateOfPurchase" value="{{ $Value->DateOfPurchase }}">
+
+                                @if ($errors->has('DateOfPurchase'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('DateOfPurchase') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -280,7 +324,7 @@
         </div>
     </div>
 </div>
-
+@endif
 @endsection
 
 <!--@section('script')

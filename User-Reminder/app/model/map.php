@@ -29,7 +29,7 @@ class map extends Model
         $map->MediclaimReminder();
         //$map->licReminder();
        // $map->vehicleReminder();
-       // $map->electronicsReminder();
+       $map->electronicsReminder();
        // $map->vaccinReminder();
     }
     public function MediclaimReminder()
@@ -100,7 +100,7 @@ class map extends Model
                      $cnt++;
                 }
             }
-        for($i=0;$i<count($policyno);$i++)
+        for($i=0;$i<count($Itemno);$i++)
             {
                 echo $emailarray[$i];
                 echo $Itemname[$i];
@@ -117,7 +117,7 @@ class map extends Model
     public function vehicleReminder()
     {
         $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,PolicyNumber,MediclaimCompany,email from mediclaims");
-        $policyno=array();
+        $vehicleno=array();
         $cnt=0;
         $emailarray=array();
         $mediclaimcompany=array();
@@ -145,23 +145,22 @@ class map extends Model
             {
                 echo $emailarray[$i];
                 echo $mediclaimcompany[$i];
-                echo $policyno[$i];
-                $email=array('email'=>$emailarray[$i],'company'=>$mediclaimcompany[$i],'policy'=>$policyno[$i]);
+                echo $vehicleno[$i];
+                $email=array('email'=>$emailarray[$i],'company'=>$mediclaimcompany[$i],'policy'=>$vehicleno[$i]);
                 Mail::send([],$email, function ($message) use ($email)  {
                     $message->to($email['email']);
                     $message->subject("Reminder");
-                    $message->setBody('Hi, welcome user! naveen g these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
+                    $message->setBody('Hi, Goodmorning these is a reminder regarding vehicle service, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
                  });
             }
             echo "completed";
     }
     public function licReminder()
     {
-        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,PolicyNumber,MediclaimCompany,email from mediclaims");
+        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,PolicyNumber,email from l_i_c_s");
         $policyno=array();
         $cnt=0;
         $emailarray=array();
-        $mediclaimcompany=array();
         $emailsubject='';
         $emailmsg='';
         foreach($data as $values)
@@ -178,20 +177,18 @@ class map extends Model
                     echo "entered";
                      $policyno[$cnt]=$values->PolicyNumber;
                      $emailarray[$cnt]=$values->email;
-                     $mediclaimcompany[$cnt]=$values->MediclaimCompany;
                      $cnt++;
                 }
             }
         for($i=0;$i<count($policyno);$i++)
             {
                 echo $emailarray[$i];
-                echo $mediclaimcompany[$i];
                 echo $policyno[$i];
-                $email=array('email'=>$emailarray[$i],'company'=>$mediclaimcompany[$i],'policy'=>$policyno[$i]);
+                $email=array('email'=>$emailarray[$i],'policy'=>$policyno[$i]);
                 Mail::send([],$email, function ($message) use ($email)  {
                     $message->to($email['email']);
                     $message->subject("Reminder");
-                    $message->setBody('Hi, welcome user! naveen g these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
+                    $message->setBody('Hi, Good Morning these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
                  });
             }
             echo "completed";

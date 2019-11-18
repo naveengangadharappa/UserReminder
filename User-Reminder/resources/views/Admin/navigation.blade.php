@@ -55,7 +55,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                        <li><a href="{{ url('/CustomerManagement') }}">Customer Management</a></li>
+                        <li><a href="{{ url('/CustomerManagement/,0') }}">Customer Management</a></li>
                         <li><a href="{{ url('/ReminderManagement') }}">Reminder category Management</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

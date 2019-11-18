@@ -36,6 +36,8 @@ class ChildrenVaccinController extends Controller
 
     public function postdata(Request $request)
     {
+        try{
+            
         if($request->get('choice')=='insert')
        { 
         $this->validate($request,[
@@ -67,6 +69,12 @@ class ChildrenVaccinController extends Controller
         DB::connection('mysql')->select("update add_vaccinations set VaccinationName =?,VaccinationDuedate=? where VaccinationId=?",[$request->get('VaccinationName'),$request->get('VaccinationDuedate'),$request->get('VaccinId')]);  
         return redirect('/ChildrenVaccin/,0')->with('success',"updatadion successfull");  
     }
+}
+catch(Exception $e)  
+{
+echo "Exception in Children Registration = " .$e;
+return redirect('/ChildrenVaccin/,0');
+}
        
     }
 }

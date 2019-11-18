@@ -42,6 +42,8 @@ class AddVaccinationController extends Controller
 
     public function postdata(Request $request)
     {
+        try{
+            
         $this->validate($request,[
             'ChildName'=>'required',
             'VaccinationName' => 'required',
@@ -56,5 +58,11 @@ class AddVaccinationController extends Controller
             'VaccinationDuedate'=> $request->get('VaccinationDuedate'),
         ]);
         return redirect('/ChildrenVaccin/,0')->with('success',"Vaccination Registered successfull");
+    }
+    catch(Exception $e)  
+{
+echo "Exception in Add Vaccination = " .$e;
+return redirect('/ChildrenVaccin/,0');
+}
     }
 }

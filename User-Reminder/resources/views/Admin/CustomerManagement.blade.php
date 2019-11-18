@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">{{$head}}<div class="nav navbar-nav navbar-right" ><input type="text" name="search" id="search" ><button >search</button></div> </div>
+                <div class="panel-heading">{{$head}}<div class="nav navbar-nav navbar-right" ><form method="POST" action="{{ url('/getuserdata') }}">{{ csrf_field() }}<input type="text" name="search" id="search" ><input type="submit" value="Search"></form></div> </div>
                 <div class="panel-body">
                 <div class="table-responsive"><table class="table" style="border-radius:8%;width:100%">
                     <tr>
@@ -25,7 +25,7 @@
                             <td>{{$values->name}}</td>
                             <td>{{$values->email}}</td>
                             <td>{{$values->Mobilenumber}}</td>
-                            <td><a href="/displayall/deleteuser/{{$values->email.',user'}}">Delete</a><br><a href="../Mediclaim/{{$values->email.',mediclaim'}}">View Details</a></td>
+                            <td><a href="/displayall/deleteuser/{{$values->email.',user'}}">Delete</a><br><a href="/ViewCustomer/{{$values->email}}">View Details</a></td>
                             </tr>
                         @endforeach
                     </tbody>

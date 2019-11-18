@@ -34,6 +34,8 @@ class MediclaimController extends Controller
 
     public function postdata(Request $request)
     {
+        try{
+
         if($request->get('choice')=='insert')
        { 
         $this->validate($request,[
@@ -88,6 +90,12 @@ class MediclaimController extends Controller
                 }
                 return redirect('/Mediclaim/,0')->with('success',"Policy Details updated successfull");  
             }
+        }
+            catch(Exception $e)  
+    {
+        echo "Exception in MediClaim = " .$e;
+        return redirect('/Mediclaim/,0');
+    }
             
 }
 }

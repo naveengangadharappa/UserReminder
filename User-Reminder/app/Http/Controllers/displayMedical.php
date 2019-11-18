@@ -27,7 +27,7 @@ class displayMedical extends Controller
             $rout='displaymediclaim';
             $flg='lic';
             $head='Lic Policy Details';
-            $heading=array('Policy Number','Policy holder','Lic Plan','SumAssured Amount','Pemium Amount','Premium Paying Term','Reminder Frequency');
+            $heading=array('Policy Number','Policy holder','Lic Plan','Date Of Purchase','SumAssured Amount','Pemium Amount','Premium Paying Term','Reminder Frequency');
             return view($rout,compact('data','flg','heading','head'));
         break;
         case 'electronics':$data=DB::connection('mysql')->select("select * from electronics where email=?",[$email]);
@@ -63,18 +63,28 @@ class displayMedical extends Controller
         $arr=explode(",",$ids);
         $choice=$arr[1];
         $id=$arr[0];
+        $auth=$arr[2];
         switch($choice)
         {
             case 'mediclaim':$data=DB::connection('mysql')->delete("delete from mediclaims where PolicyNumber=?",[$id]);
+           if($auth=='admin'){return redirect('/CustomerManagement/,0');}
+           else{return redirect('/Mediclaim/,0');  }  
             break;
             case 'lic':$data=DB::connection('mysql')->delete("delete from l_i_c_s where Policynumber=?",[$id]);
+            if($auth=='admin'){return redirect('/CustomerManagement/,0');}
+           else{return redirect('/LIC/,0');}
             break;
             case 'electronics':$data=DB::connection('mysql')->delete("delete from electronics where Itemnumber=?",[$id]);
+            if($auth=='admin'){return redirect('/CustomerManagement/,0');}
+            else{return redirect('/Electronics/,0'); }   
             break;
             case 'vehicle':$data=DB::connection('mysql')->delete("delete from vehicle_services where VehicleNumber=?",[$id]);
-            return redirect('/VehicleServiceing/,0');
+            if($auth=='admin'){return redirect('/CustomerManagement/,0');}
+           else{return redirect('/VehicleServiceing/,0');}    
             break;
             case 'child':$data=DB::connection('mysql')->delete("delete from add_vaccinations where VaccinationId=?",[$id]);
+            if($auth=='admin'){return redirect('/CustomerManagement/,0');}
+           else{return redirect('/ChildrenVaccin/,0');}
             //$childid=$arr[2];
             //$data=DB::connection('mysql')->delete("delete from children_vaccins where ChildId=?",[$childid]);
             break;
@@ -84,8 +94,8 @@ class displayMedical extends Controller
             $data=DB::connection('mysql')->delete("delete from l_i_c_s where email=?",[$id]);
             $data=DB::connection('mysql')->delete("delete from mediclaims where email=?",[$id]);
             $data=DB::connection('mysql')->delete("delete from children_vaccins where email=?",[$id]);
+            return redirect('/CustomerManagement/,0');
         break;
         }
-        return redirect('/ChildrenVaccin/,0');
     }
 }

@@ -45,14 +45,21 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                
                 <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                    @if (Auth::guest())
+                        <li><a href="{{ url('/Adminlogin') }}">AdminLogin</a></li>
+                        <li><a href="{{ url('/login') }}">UserLogin</a></li>
+                        <li><a href="{{ url('/register') }}">Register</a></li>
+                    @else
                     <li><a href="{{ url('/home') }}">Home</a></li>
                     <li><a href="{{ url('/Mediclaim/,0') }}">Mediclaim Policy</a></li>
                         <li><a href="{{ url('/LIC/,0') }}">LIC Polocies</a></li>
                         <li><a href="{{ url('/Electronics/,0') }}">Electronics Goods </a></li>
                         <li><a href="{{ url('/VehicleServiceing/,0') }}">Vehicle Servicing</a></li>
                         <li><a href="{{ url('/ChildrenVaccin/,0') }}">Children Vaccenation Reminder</a></li>
+                        @endif
                 </ul>
             </div>
         </div>

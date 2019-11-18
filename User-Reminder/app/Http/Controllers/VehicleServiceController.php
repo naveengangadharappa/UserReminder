@@ -33,6 +33,7 @@ class VehicleServiceController extends Controller
 
     public function postdata(Request $request)
     {
+        try{
         if($request->get('choice')=='insert')
        { $this->validate($request,[
             'VehicleType' => 'required',
@@ -76,5 +77,12 @@ class VehicleServiceController extends Controller
         DB::connection('mysql')->select("update vehicle_services set VehicleType =?,DateOfPurchase=?,Servicing1DueDate=?,Servicing2DueDate=?,Servicing3DueDate=?,PUCExpirydate=? where VehicleNumber=?",[$request->get('VehicleType'),$request->get('DateOfPurchase'),$request->get('Servicing1DueDate'),$request->get('Servicing2DueDate'),$request->get('Servicing3DueDate'),$request->get( 'PUCExpirydate'),$id]);  
         return redirect('/VehicleServiceing/,0')->with('success',"updatadion successfull");  
     }
+}
+catch(Exception $e)  
+{
+echo "Exception in Vehicle Servicing = " .$e;
+return redirect('/VehicleServiceing/,0');
+}
+
 }     
 }

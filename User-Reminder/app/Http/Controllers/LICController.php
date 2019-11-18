@@ -34,12 +34,16 @@ class LICController extends Controller
 
     public function postdata(Request $request)
     {
+        try{
+            
+       
         if($request->get('choice')=='insert')
        { 
         $this->validate($request,[
             'Policynumber' => 'required|unique:l_i_c_s',
             'PolicyHolder' => 'required',
             'LicPlanName' => 'required',
+            'DateOfPurchase' => 'required',
             'SumAssuredAmount' => 'required',
             'PremiumAmount' => 'required',
             'PremiumPayingTerm' => 'required',
@@ -64,6 +68,7 @@ class LICController extends Controller
             'Policynumber' => $request->get('Policynumber'),
             'PolicyHolder'=> $request->get('PolicyHolder'),
             'LicPlanName' => $request->get('LicPlanName'),
+            'DateOfPurchase' => $request->get('DateOfPurchase'),
             'SumAssuredAmount' => $request->get('SumAssuredAmount'),
             'PremiumAmount' => $request->get('PremiumAmount'),
             'PremiumPayingTerm' => $request->get('PremiumPayingTerm'),
@@ -76,6 +81,7 @@ class LICController extends Controller
             'Policynumber' => 'required',
             'PolicyHolder' => 'required',
             'LicPlanName' => 'required',
+            'DateOfPurchase' => 'required',
             'SumAssuredAmount' => 'required',
             'PremiumAmount' => 'required',
             'PremiumPayingTerm' => 'required',
@@ -85,7 +91,7 @@ class LICController extends Controller
         {
             echo $request->get('PolicyDocument');
             $id=$request->get('Policynumber');
-            DB::connection('mysql')->select("update l_i_c_s set PolicyHolder =?,LicPlanName=?,SumAssuredAmount=?,PremiumAmount=?,PremiumPayingTerm=?,ReminderFrequency=? where Policynumber=?",[$request->get('PolicyHolder'),$request->get('LicPlanName'),$request->get('SumAssuredAmount'),$request->get('PremiumAmount'),$request->get('PremiumPayingTerm'),$request->get('ReminderFrequency'),$id]);  
+            DB::connection('mysql')->select("update l_i_c_s set PolicyHolder =?,LicPlanName=?,DateOfPurchase=?,SumAssuredAmount=?,PremiumAmount=?,PremiumPayingTerm=?,ReminderFrequency=? where Policynumber=?",[$request->get('PolicyHolder'),$request->get('LicPlanName'),$request->get('DateOfPurchase'),$request->get('SumAssuredAmount'),$request->get('PremiumAmount'),$request->get('PremiumPayingTerm'),$request->get('ReminderFrequency'),$id]);  
         }
         else{
             $policynumber=$request->get('Policynumber');
@@ -97,6 +103,11 @@ class LICController extends Controller
         }
         return redirect('/LIC/,0')->with('success',"Policy Details updated successfull");
        } 
-       
+    }
+    catch(Exception $e)  
+    {
+        echo "Exception in LIC = " .$e;
+        return redirect('/LIC/,0');
+    }
     }
 }

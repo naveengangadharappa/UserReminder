@@ -18,6 +18,7 @@ class CreateLICsTable extends Migration
             $table->String('Policynumber')->unique();
             $table->String('PolicyHolder');
             $table->String('LicPlanName');
+            $table->String('DateOfPurchase');
             $table->String('SumAssuredAmount');
             $table->String('PremiumAmount');
             $table->String('PremiumPayingTerm');

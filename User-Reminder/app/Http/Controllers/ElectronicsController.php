@@ -34,6 +34,8 @@ class ElectronicsController extends Controller
 
     public function postdata(Request $request)
     {
+        try{
+            
         if($request->get('choice')=='insert')
        { 
         $this->validate($request,[
@@ -97,6 +99,11 @@ class ElectronicsController extends Controller
         }
         return redirect('/Electronics/,0')->with('success',"Updation successfull");
        }
-        
+    }
+    catch(Exception $e)  
+{
+echo "Exception in MediClaim = " .$e;
+return redirect('/Electronics/,0');
+}  
     }
 }

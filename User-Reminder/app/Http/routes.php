@@ -27,7 +27,13 @@ Route::post('/Adminlogin', 'AdminController@verifiylogin');
 
 Route::get('/dashboard/{status}', 'dashboardController@index');
 
-Route::get('/CustomerManagement', 'CustomerManagement@index');
+Route::get('/CustomerManagement/{ids}', 'CustomerManagement@index');
+
+Route::post('/getuserdata', 'CustomerManagement@postdata');
+
+Route::get('/ViewCustomer/{email}', 'ViewCustomerController@index');
+
+Route::get('/Reminderlist/{email}', 'ReminderlistController@index');
 
 Route::get('/ChildrenVaccin/{ids}', 'ChildrenVaccinController@index');
 
@@ -63,11 +69,4 @@ Route::get('/displayall/deleteuser/{id}', 'displayMedical@deleteuser');
 
 Route::post('/getchild', 'AddVaccinationController@getchild');
 
-/*Route::get('/displayall/mediclaim/{id}', 'MediClaimController@index');
-
-Route::get('/displayall/electronics/', 'ElectronicsController@index');
-
-Route::get('/displayall/vehicle/', 'VehicleServiceController@index');
-
-Route::get('/displayall/lic/', 'LICController@index');*/
 
