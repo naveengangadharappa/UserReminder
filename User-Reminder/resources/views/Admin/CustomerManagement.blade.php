@@ -1,6 +1,23 @@
-@extends('Admin.navigation')
+@extends('layouts.app')
 
 @section('content')
+@if (Auth::guest())
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Attempting UnAuthorised Login </div>
+                <div class="panel-body">
+                <div style="background-color:pink;">
+                    You are not Authorized please login with your Credientials
+                    <br><strong> Do Not Attempt Again !!!</strong>
+                    </div>
+                </div></div>
+            </div>
+        </div>
+    </div>
+</div>
+@else
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -36,5 +53,7 @@
         </div>
     </div>
 </div>
+   
+@endif
 @endsection
 

@@ -30,6 +30,7 @@
                     @foreach($heading as $value)
                     <th>{{$value}}</th>
                     @endforeach
+                    <th>Documents</th>
                     <th>Options</th>
                     </thead>
                     </tr>
@@ -41,6 +42,7 @@
                             <td>{{$mediclaim->MediclaimCompany}}</td>
                             <td>{{$mediclaim->DateOfPurchase}}</td>
                             <td>{{$mediclaim->ReminderFrequency}} days</td>
+                            <td><a href="/document/mediclaim/{{$mediclaim->PolicyNumber}}.png"><img src="/document/mediclaim/{{$mediclaim->PolicyNumber}}.png" height="30px" width="30px" alt=""></a><a href="/document/mediclaim/{{$mediclaim->PolicyNumber}}.jpg"><img src="/document/mediclaim/{{$mediclaim->PolicyNumber}}.jpg" height="30px" width="30px" alt=""></a></td>
                             <td><a href="deleteuser/{{$mediclaim->PolicyNumber.',mediclaim,user'}}">Delete</a><br><a href="../Mediclaim/{{$mediclaim->PolicyNumber.',mediclaim'}}">Edit</a></td>
                             </tr>
                         @endforeach
@@ -56,6 +58,7 @@
                             <td>{{$lic->PremiumAmount}}</td>
                             <td>{{$lic->PremiumPayingTerm}}</td>
                             <td>{{$lic->ReminderFrequency}} days</td>
+                            <td><a href="/document/Lic/{{$lic->Policynumber}}.png"><img src="/document/Lic/{{$lic->Policynumber}}.png" height="30px" width="30px" alt=""></a><a href="/document/Lic/{{$lic->Policynumber}}.jpg"><img src="/document/Lic/{{$lic->Policynumber}}.jpg" height="30px" width="30px" alt=""></a></td>
                             <td><a href="deleteuser/{{$lic->Policynumber.',lic,user'}}">Delete</a><br><a href="../LIC/{{$lic->Policynumber.',lic'}}">Edit</a></td>
                             </tr>
                         @endforeach
@@ -68,6 +71,7 @@
                             <td>{{$values->DateOfPurchase}}</td>
                             <td>@if($values->WarrantyPeriod > 10) <p>{{$values->WarrantyPeriod}} days @endif @if($values->WarrantyPeriod < 10)  {{$values->WarrantyPeriod}}</p>year @endif</td>
                             <td>{{$values->ReminderFrequency}} days</td>
+                            <td><a href="/document/Electronics/bills/{{$values->Itemnumber}}.png"><img src="/document/Electronics/bills/{{$values->Itemnumber}}.png" height="30px" width="30px" alt=""></a><a href="/document/Electronics/warrenty/{{$values->Itemnumber}}.png"><img src="/document/Electronics/warrenty/{{$values->Itemnumber}}.png" height="30px" width="30px" alt=""></a><a href="/document/Electronics/bills/{{$values->Itemnumber}}.jpg"><img src="/document/Electronics/bills/{{$values->Itemnumber}}.jpg" height="30px" width="30px" alt=""></a><a href="/document/Electronics/warrenty/{{$values->Itemnumber}}.jpg"><img src="/document/Electronics/warrenty/{{$values->Itemnumber}}.jpg" height="30px" width="30px" alt=""></a></td>
                             <td><a href="deleteuser/{{$values->Itemnumber.',electronics,user'}}">Delete</a><br><a href="../Electronics/{{$values->Itemnumber.',electronics'}}">Edit</a></td>
                             </tr>
                         @endforeach

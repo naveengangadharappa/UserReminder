@@ -17,12 +17,12 @@ class CustomerManagement extends Controller
         $choice=$id[1];
         switch($choice)
         {
-        case '0':$data=DB::connection('mysql')->select("select * from users");
+        case '0':$data=DB::connection('mysql')->select("select * from users where roles='user'");
         $head='Customers Details';
         return view('Admin/CustomerManagement',compact('data','head')); 
         break;
         case '1':$name='%'.$name.'%';
-        $data=DB::connection('mysql')->select("select * from users where name like ?",[$name]);
+        $data=DB::connection('mysql')->select("select * from users where roles='user' and name like ?",[$name]);
         $head='Customers Details';
         return view('Admin/CustomerManagement',compact('data','head')); 
         break;

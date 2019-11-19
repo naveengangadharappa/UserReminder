@@ -55,6 +55,7 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
             'Mobilenumber' => 'required|min:10|max:13|unique:users',
+            'role'=>'required',
         ]);
     }
 
@@ -66,7 +67,6 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        
         $Email=$data['email'];
         try{
       $mailflg=Mail::send('Registeremail', $data, function($message) use ($data) {
@@ -84,6 +84,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'Mobilenumber' => $data['Mobilenumber'],
             'email' => $data['email'],
+            'roles'=>$data['role'],
             'password' => bcrypt($data['password']),
         ]);
     }

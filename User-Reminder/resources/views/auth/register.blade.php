@@ -80,12 +80,11 @@
                                 @endif
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-user"></i> Register
-                                </button>
+                                </button><input type="text" name="role" id="role" value="{{'user'}}" style="visibility:hidden">
                             </div>
                         </div>
                     </form>

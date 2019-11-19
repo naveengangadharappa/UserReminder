@@ -33,12 +33,11 @@ class AdminController extends Controller
         
         
         */
-        $data=DB::connection('mysql')->select("select * from adminlogin  where email=? and password=?",[$request->get('email'),$request->get('password')]);  
+        $data=DB::connection('mysql')->select("select * from adminlogins  where email=? and password=?",[$request->get('email'),$request->get('password')]);  
             foreach($data as $values)
             {
                 if($values->email==$request->get('email'))
                 {
-                    $flag=true;
                     echo "login success";
                     return redirect('/dashboard/1')->with('email',$request->get('email'));
                 }

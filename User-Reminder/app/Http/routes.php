@@ -21,9 +21,9 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/NavigationOption', 'NavigationOptionController@index');
 
-Route::get('/Adminlogin', 'AdminController@index');
+Route::get('/Adminlogin', 'auth\AdminController@index');
 
-Route::post('/Adminlogin', 'AdminController@verifiylogin');
+Route::post('/Adminlogin', 'auth\AdminController@verifiylogin');
 
 Route::get('/dashboard/{status}', 'dashboardController@index');
 

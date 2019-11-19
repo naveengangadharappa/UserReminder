@@ -9,7 +9,7 @@ use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\DB;
-use App\User;
+use App\adminlogin;
 
 class AdminController extends Controller
 {
@@ -17,8 +17,8 @@ class AdminController extends Controller
     protected $redirectTo = '/';
     public function __construct()
     {
-        //$this->middleware($this->guestMiddleware(), ['except' => 'logout']);
-        $this->middleware('guest:admin');
+        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+       // $this->middleware('guest:admins');
     }
 
     public function index()
@@ -33,7 +33,7 @@ class AdminController extends Controller
             'password' => 'required',
         ]);
 
-        if(Auth::guard('admin')->attempt(['email'=>$request->email,'password'=>$request->password]))
+        if(Auth::guard('admins')->attempt(['email'=>$request->email,'password'=>$request->password]))
         {
             return redirect()->intended('/dashboard/1');
         }
