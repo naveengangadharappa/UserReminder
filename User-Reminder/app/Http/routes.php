@@ -67,6 +67,10 @@ Route::get('/displayall/{email}', 'displayMedical@index');
 
 Route::get('/displayall/deleteuser/{id}', 'displayMedical@deleteuser');
 
+Route::get('/displayall/InactiveUser/{email}', 'displayMedical@InactiveUser');
+
+Route::get('/displayall/ActiveUser/{email}', 'displayMedical@ActiveUser');
+
 Route::post('/getchild', 'AddVaccinationController@getchild');
 
 

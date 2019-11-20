@@ -23,9 +23,10 @@ class Maintest extends Seeder
      */
     public function run()
     {
-        DB::table('adminlogins')->insert([
+        DB::table('users')->insert([
             'email'=>'gnaveenkumar18.ng@gmail.com',
-            'password'=>bcrypt(7483334815)
+            'password'=>bcrypt(7483334815),
+            'status'=>'active',
         ]);
         //$this->call(UsersTableSeeder::class);
         $this->command->info('admin added');

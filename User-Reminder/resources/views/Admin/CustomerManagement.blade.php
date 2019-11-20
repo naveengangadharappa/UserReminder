@@ -24,6 +24,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">{{$head}}<div class="nav navbar-nav navbar-right" ><form method="POST" action="{{ url('/getuserdata') }}">{{ csrf_field() }}<input type="text" name="search" id="search" ><input type="submit" value="Search"></form></div> </div>
                 <div class="panel-body">
+                @if($message=Session::get('success'))
+                <div class='alert alert-success'>
+                <p>{{$message}}</p>
+                </div>
+                @endif
                 <div class="table-responsive"><table class="table" style="border-radius:8%;width:100%">
                     <tr>
                     <thead style="background-color:#f5f5f5;border-radius:8%;">
@@ -42,7 +47,7 @@
                             <td>{{$values->name}}</td>
                             <td>{{$values->email}}</td>
                             <td>{{$values->Mobilenumber}}</td>
-                            <td><a href="/displayall/deleteuser/{{$values->email.',user'}}">Delete</a><br><a href="/ViewCustomer/{{$values->email}}">View Details</a></td>
+                            <td><a href="/displayall/deleteuser/{{$values->email.',user,admin'}}">Delete</a><br>@if($values->status=='active')<a href="/displayall/InactiveUser/{{$values->email}}">Inactive User</a>@else<a href="/displayall/ActiveUser/{{$values->email}}">Active User</a>@endif<br><a href="/ViewCustomer/{{$values->email}}">View Details</a></td>
                             </tr>
                         @endforeach
                     </tbody>

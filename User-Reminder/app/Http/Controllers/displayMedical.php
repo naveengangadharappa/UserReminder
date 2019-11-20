@@ -94,8 +94,18 @@ class displayMedical extends Controller
             $data=DB::connection('mysql')->delete("delete from l_i_c_s where email=?",[$id]);
             $data=DB::connection('mysql')->delete("delete from mediclaims where email=?",[$id]);
             $data=DB::connection('mysql')->delete("delete from children_vaccins where email=?",[$id]);
-            return redirect('/CustomerManagement/,0');
+            return redirect('/CustomerManagement/,0')->with('success',"User Deleted");;
         break;
         }
+    }
+    public function InactiveUser($email)
+    {
+        $data=DB::connection('mysql')->update("update users set status='inactive' where email=?",[$email]);
+        return redirect('/CustomerManagement/,0')->with('success',"User InActived");
+    }
+    public function ActiveUser($email)
+    {
+        $data=DB::connection('mysql')->update("update users set status='active' where email=?",[$email]);
+        return redirect('/CustomerManagement/,0')->with('success',"User Actived");
     }
 }

@@ -34,7 +34,7 @@ class map extends Model
     }
     public function MediclaimReminder()
     {
-        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,PolicyNumber,MediclaimCompany,email from mediclaims");
+        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,PolicyNumber,MediclaimCompany,users.email from mediclaims,users where users.email=mediclaims.email and users.status='active'");
         $policyno=array();
         $cnt=0;
         $emailarray=array();
@@ -75,7 +75,7 @@ class map extends Model
     }
     public function electronicsReminder()
     {
-        $data=DB::connection('mysql')->select("select WarrantyPeriod,DateOfPurchase,ReminderFrequency,ItemNumber,ItemName,email from electronics");
+        $data=DB::connection('mysql')->select("select WarrantyPeriod,DateOfPurchase,ReminderFrequency,ItemNumber,ItemName,electronics.email from electronics,users where users.email=electronics.email and users.status='active'");
         $Itemno=array();
         $cnt=0;
         $emailarray=array();
@@ -185,7 +185,7 @@ class map extends Model
     }
     public function vehicleReminder()
     {
-        $data=DB::connection('mysql')->select("select Servicing1DueDate,Servicing2DueDate,Servicing3DueDate,email,VehicleNumber from vehicle_services");
+        $data=DB::connection('mysql')->select("select Servicing1DueDate,Servicing2DueDate,Servicing3DueDate,vehicle_services.email,VehicleNumber from vehicle_services,users where users.email=vehicle_services.email and users.status='active'");
         $vehicleno=array();
         $cnt=0;
         $emailarray=array();
@@ -240,7 +240,7 @@ class map extends Model
     }
     public function licReminder()
     {
-        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,Policynumber,PremiumPayingTerm,email from l_i_c_s");
+        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,Policynumber,PremiumPayingTerm,l_i_c_s.email from l_i_c_s,users where users.email=l_i_c_s.email and users.status='active'");
         $policyno=array();
         $pptarr=array();
         $cnt=0;
@@ -312,7 +312,7 @@ class map extends Model
     }
     public function vaccinReminder()
     {
-        $data=DB::connection('mysql')->select("select v.VaccinationName,v.VaccinationDuedate,c.ChildName,c.email from children_vaccins c,add_vaccinations v where c.ChildId=v.ChildId");
+        $data=DB::connection('mysql')->select("select v.VaccinationName,v.VaccinationDuedate,c.ChildName,c.email from children_vaccins c,add_vaccinations v,users u where c.ChildId=v.ChildId and u.status='active'");
         $vaccinname=array();
         $cnt=0;
         $emailarray=array();

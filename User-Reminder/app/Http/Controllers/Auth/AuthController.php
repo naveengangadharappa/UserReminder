@@ -85,6 +85,7 @@ class AuthController extends Controller
             'Mobilenumber' => $data['Mobilenumber'],
             'email' => $data['email'],
             'roles'=>$data['role'],
+            'status'=>'active',
             'password' => bcrypt($data['password']),
         ]);
     }
