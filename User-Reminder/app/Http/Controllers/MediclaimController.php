@@ -75,7 +75,6 @@ class MediclaimController extends Controller
                
                 if($request->get('PolicyDocument')=='')
                 {
-                    echo $request->get('PolicyDocument');
                     $id=$request->get('PolicyNumber');
                     DB::connection('mysql')->select("update mediclaims set MediclaimCompany =?,DateOfPurchase=?,ReminderFrequency=?,PremiumAmount=? where PolicyNumber=?",[$request->get('MediclaimCompany'),$request->get('DateOfPurchase'),$request->get('ReminderFrequency'),$request->get('PremiumAmount'),$id]);  
                 }
@@ -91,7 +90,7 @@ class MediclaimController extends Controller
                 return redirect('/Mediclaim/,0')->with('success',"Policy Details updated successfull");  
             }
         }
-            catch(Exception $e)  
+            catch(\Exception $e)  
     {
         echo "Exception in MediClaim = " .$e;
         return redirect('/Mediclaim/,0');

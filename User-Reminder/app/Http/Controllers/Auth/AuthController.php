@@ -67,6 +67,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+        $flgs='false';
         $Email=$data['email'];
         try{
       $mailflg=Mail::send('Registeremail', $data, function($message) use ($data) {
@@ -76,17 +77,18 @@ class AuthController extends Controller
     }
       catch(\Exception $e)
     {
-        echo "Exception in Registration ".$e ;
-        return User::create([
-            ]);
-    }
-        return User::create([
-            'name' => $data['name'],
-            'Mobilenumber' => $data['Mobilenumber'],
-            'email' => $data['email'],
-            'roles'=>$data['role'],
-            'status'=>'active',
-            'password' => bcrypt($data['password']),
+        echo "Please Provide Valid Email Address " ;
+        $flgs='false';
+        return Validator::make($data, [
         ]);
+    }
+       return User::create([
+      'name' => $data['name'],
+      'Mobilenumber' => $data['Mobilenumber'],
+      'email' => $data['email'],
+      'roles'=>$data['role'],
+      'status'=>'active',
+      'password' => bcrypt($data['password']),
+  ]);
     }
 }

@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">User-Details<div class="nav navbar-nav navbar-right" >{{$Email}}</div> </div>
+                <div class="panel-heading">List Of Reminders<div class="nav navbar-nav navbar-right" >{{$Email}}</div> </div>
                 <div class="panel-body">
                 <div class="table-responsive"><table class="table" style="border-radius:8%;width:100%">
                     <tr>

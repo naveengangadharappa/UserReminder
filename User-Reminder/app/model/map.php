@@ -12,6 +12,11 @@ class map extends Model
         DB::connection('mysql')->insert("insert into mapping(Email,MediClaimPolicyNumber,LicPolicyNumber,VehicleNumber,ItemNumber,ChildId) values(?,?,?,?,?,?)",
         [$Email,$MediClaimPolicyNumber,$LicPolicyNumber,$VehicleNumber,$ItemNumber,$ChildId]);
     }
+
+    public function register()
+    {
+        return redirect("/login");
+    }
     public function getChildNames($Email)
     {
         $childdetails=array();
@@ -48,11 +53,9 @@ class map extends Model
                 $date2 = date_create($values->DateOfPurchase);
                 $intverl=date_diff($date1,$date2);
                 $c=$intverl->format("%a");
-                echo $c."\n";
                 //if(($c+365)-365==$values->ReminderFrequency)
                 if((365-$c)==$values->ReminderFrequency)
                 {
-                    echo "entered";
                      $policyno[$cnt]=$values->PolicyNumber;
                      $emailarray[$cnt]=$values->email;
                      $mediclaimcompany[$cnt]=$values->MediclaimCompany;
@@ -61,9 +64,6 @@ class map extends Model
             }
         for($i=0;$i<count($policyno);$i++)
             {
-                echo $emailarray[$i];
-                echo $mediclaimcompany[$i];
-                echo $policyno[$i];
                 $email=array('email'=>$emailarray[$i],'company'=>$mediclaimcompany[$i],'policy'=>$policyno[$i]);
                 Mail::send([],$email, function ($message) use ($email)  {
                     $message->to($email['email']);
@@ -90,7 +90,6 @@ class map extends Model
                 $date2 = date_create($values->DateOfPurchase);
                 $intverl=date_diff($date1,$date2);
                 $c=$intverl->format("%a");
-                echo $c."  ";
                 $warrentyperiod=$values->WarrantyPeriod;
                 switch($warrentyperiod)
                 {
@@ -205,30 +204,21 @@ class map extends Model
                 $c1=$intverl->format("%a");
                 $c2=$intverl1->format("%a");
                 $c3=$intverl2->format("%a");
-                echo $c1;
-                echo $c2;
-                echo $c3;
                 if($c1>0){$c=$c1;}
                 elseif($c2>0){$c=$c2;}
                 elseif($c3>0){$c=$c3;}
                 else{ continue;}
                 $ct=0;
-                echo $c."\n";
                 //if(($c+365)-365==$values->ReminderFrequency)
                 if($c==7)
                 {
-                    echo "entered";
                     $vehicleno[$cnt]=$values->VehicleNumber;
                      $emailarray[$cnt]=$values->email;
-                     //$mediclaimcompany[$cnt]=$values->MediclaimCompany;
                      $cnt++;
                 }
             }
         for($i=0;$i<count($vehicleno);$i++)
             {
-                echo $emailarray[$i];
-                //echo $mediclaimcompany[$i];
-                echo $vehicleno[$i];
                 $email=array('email'=>$emailarray[$i],'vehicle'=>$vehicleno[$i]);
                 Mail::send([],$email, function ($message) use ($email)  {
                     $message->to($email['email']);
@@ -254,9 +244,7 @@ class map extends Model
                 $date2 = date_create($values->DateOfPurchase);
                 $intverl=date_diff($date1,$date2);
                 $c=$intverl->format("%a");
-                echo $c."  ";
                 $ppt=$values->PremiumPayingTerm;
-                echo $ppt;
                 switch($ppt)
                 {
                     case 'Monthly':if((30-$c)==$values->ReminderFrequency||(59-$c)==($values->ReminderFrequency)||(90-$c)==($values->ReminderFrequency)||(120-$c)==($values->ReminderFrequency)||(151-$c)==($values->ReminderFrequency)||(182-$c)==($values->ReminderFrequency)||(213-$c)==$values->ReminderFrequency||(243-$c)==($values->ReminderFrequency)||(273-$c)==($values->ReminderFrequency)||(304-$c)==($values->ReminderFrequency)||(334-$c)==($values->ReminderFrequency)||(365-$c)==($values->ReminderFrequency))
@@ -299,8 +287,6 @@ class map extends Model
             }
         for($i=0;$i<count($policyno);$i++)
             {
-                echo $emailarray[$i];
-                echo $policyno[$i];
                 $email=array('email'=>$emailarray[$i],'ppt'=>$pptarr[$i],'policy'=>$policyno[$i]);
                 Mail::send([],$email, function ($message) use ($email)  {
                     $message->to($email['email']);
@@ -326,8 +312,6 @@ class map extends Model
                 $date2 = date_create($values->VaccinationDuedate);
                 $intverl=date_diff($date1,$date2);
                 $c=$intverl->format("%a");
-                echo $c."\n";
-                
                 //if(($c+365)-365==$values->ReminderFrequency)
                 if($c==7)
                 {
@@ -340,9 +324,6 @@ class map extends Model
             }
         for($i=0;$i<count($vaccinname);$i++)
             {
-                echo $emailarray[$i];
-                echo $childname[$i];
-                echo $vaccinname[$i];
                 $email=array('email'=>$emailarray[$i],'vaccin'=>$vaccinname[$i],'child'=>$childname[$i]);
                 Mail::send([],$email, function ($message) use ($email)  {
                     $message->to($email['email']);
