@@ -71,6 +71,12 @@ Route::get('/displayall/InactiveUser/{email}', 'displayMedical@InactiveUser');
 
 Route::get('/displayall/ActiveUser/{email}', 'displayMedical@ActiveUser');
 
+Route::get('/ChangeReminder/{email}', 'displayMedical@ChangeReminder');
+
 Route::post('/getchild', 'AddVaccinationController@getchild');
+
+Route::get('/EditProfile/{email}', 'EditProfile@index');
+
+Route::post('/UpdateProfile', 'EditProfile@UpdateProfile');
 
 

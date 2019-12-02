@@ -4,6 +4,7 @@ namespace App\model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Mail;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class map extends Model
 {
@@ -13,10 +14,13 @@ class map extends Model
         [$Email,$MediClaimPolicyNumber,$LicPolicyNumber,$VehicleNumber,$ItemNumber,$ChildId]);
     }
 
+
     public function register()
     {
         return redirect("/login");
     }
+
+
     public function getChildNames($Email)
     {
         $childdetails=array();
@@ -28,6 +32,8 @@ class map extends Model
             }
             return $childdetails;
     }
+
+
     public function testReminder()
     {
        $map=new map();
@@ -37,13 +43,17 @@ class map extends Model
        $map->electronicsReminder();
        $map->vaccinReminder();
     }
+
+
     public function MediclaimReminder()
     {
-        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,PolicyNumber,MediclaimCompany,users.email from mediclaims,users where users.email=mediclaims.email and users.status='active'");
+        $data=DB::connection('mysql')->select("select users.Mobilenumber,users.Remindertype,DateOfPurchase,ReminderFrequency,PolicyNumber,MediclaimCompany,users.email from mediclaims,users where users.email=mediclaims.email and users.status='active'");
         $policyno=array();
         $cnt=0;
         $emailarray=array();
         $mediclaimcompany=array();
+        $remindertype=array();
+        $mobno=array();
         $emailsubject='';
         $emailmsg='';
         foreach($data as $values)
@@ -59,27 +69,55 @@ class map extends Model
                      $policyno[$cnt]=$values->PolicyNumber;
                      $emailarray[$cnt]=$values->email;
                      $mediclaimcompany[$cnt]=$values->MediclaimCompany;
+                     $remindertype[$cnt]=$values->Remindertype;
+                     $mobno[$cnt]=$values->Mobilenumber;
                      $cnt++;
                 }
             }
         for($i=0;$i<count($policyno);$i++)
             {
                 $email=array('email'=>$emailarray[$i],'company'=>$mediclaimcompany[$i],'policy'=>$policyno[$i]);
-                Mail::send([],$email, function ($message) use ($email)  {
-                    $message->to($email['email']);
-                    $message->subject("Reminder");
-                    $message->setBody('Hi, Goodmorning these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
-                 });
+                switch($remindertype[$i])
+                {
+                    case 'sms':
+                        Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Goodmorning these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it.'
+                        ]);
+                    break;
+                    case 'email':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                        $message->to($email['email']);
+                        $message->subject("Reminder");
+                        $message->setBody('Hi, Goodmorning these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
+                     });
+                    break;
+                    case 'smsemail':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Goodmorning these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it');                 
+                         });
+                         Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Goodmorning these is a reminder regarding MedicalClaim, Your MedicalClaim policy with policy number: '.$email['policy'].' and Medicalim company : '.$email['company'].'  is get expired please renew it.'
+                        ]);
+                    break;
+                }
             }
             echo "completed";
     }
     public function electronicsReminder()
     {
-        $data=DB::connection('mysql')->select("select WarrantyPeriod,DateOfPurchase,ReminderFrequency,ItemNumber,ItemName,electronics.email from electronics,users where users.email=electronics.email and users.status='active'");
+        $data=DB::connection('mysql')->select("select users.Mobilenumber,users.Remindertype,WarrantyPeriod,DateOfPurchase,ReminderFrequency,ItemNumber,ItemName,electronics.email from electronics,users where users.email=electronics.email and users.status='active'");
         $Itemno=array();
         $cnt=0;
         $emailarray=array();
         $Itemname=array();
+        $remindertype=array();
+        $mobno=array();
         $emailsubject='';
         $emailmsg='';
         $ReminderFrq='';
@@ -98,6 +136,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -106,6 +146,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -114,6 +156,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -122,6 +166,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -130,6 +176,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -138,6 +186,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -146,6 +196,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -154,6 +206,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -162,6 +216,8 @@ class map extends Model
                          $Itemno[$cnt]=$values->ItemNumber;
                          $emailarray[$cnt]=$values->email;
                          $Itemname[$cnt]=$values->ItemName;
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -170,25 +226,48 @@ class map extends Model
             }
         for($i=0;$i<count($Itemno);$i++)
             {
-                echo $emailarray[$i];
-                echo $Itemname[$i];
-                echo $Itemno[$i];
                 $email=array('email'=>$emailarray[$i],'ItemName'=>$Itemname[$i],'ItemNumber'=>$Itemno[$i],'RF'=>$ReminderFrq);
-                Mail::send([],$email, function ($message) use ($email)  {
-                    $message->to($email['email']);
-                    $message->subject("Reminder");
-                    $message->setBody('Hi, Goodmorning these is a reminder regarding Electronic Item Warrenty, Your Electronic item with Item number: '.$email['ItemNumber'].' and Item Name : '.$email['ItemName'].'  is getting expired with in '.$email['RF'].' days');                 
-                 });
+                switch($remindertype[$i])
+                {
+                    case 'sms':
+                        Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Goodmorning these is a reminder regarding Electronic Item Warrenty, Your Electronic item with Item number: '.$email['ItemNumber'].' and Item Name : '.$email['ItemName'].'  is getting expired with in '.$email['RF'].' days'
+                        ]);
+                    break;
+                    case 'email':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Goodmorning these is a reminder regarding Electronic Item Warrenty, Your Electronic item with Item number: '.$email['ItemNumber'].' and Item Name : '.$email['ItemName'].'  is getting expired with in '.$email['RF'].' days');                 
+                         });
+                    break;
+                    case 'smsemail':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Goodmorning these is a reminder regarding Electronic Item Warrenty, Your Electronic item with Item number: '.$email['ItemNumber'].' and Item Name : '.$email['ItemName'].'  is getting expired with in '.$email['RF'].' days');                 
+                         });
+                         Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Goodmorning these is a reminder regarding Electronic Item Warrenty, Your Electronic item with Item number: '.$email['ItemNumber'].' and Item Name : '.$email['ItemName'].'  is getting expired with in '.$email['RF'].' days'
+                        ]);
+                    break;
+                }
             }
             echo "completed";
     }
     public function vehicleReminder()
     {
-        $data=DB::connection('mysql')->select("select Servicing1DueDate,Servicing2DueDate,Servicing3DueDate,vehicle_services.email,VehicleNumber from vehicle_services,users where users.email=vehicle_services.email and users.status='active'");
+        $data=DB::connection('mysql')->select("select users.Mobilenumber,users.Remindertype,Servicing1DueDate,Servicing2DueDate,Servicing3DueDate,vehicle_services.email,VehicleNumber from vehicle_services,users where users.email=vehicle_services.email and users.status='active'");
         $vehicleno=array();
         $cnt=0;
         $emailarray=array();
         $mediclaimcompany=array();
+        $remindertype=array();
+        $mobno=array();
         $emailsubject='';
         $emailmsg='';
         foreach($data as $values)
@@ -214,27 +293,55 @@ class map extends Model
                 {
                     $vehicleno[$cnt]=$values->VehicleNumber;
                      $emailarray[$cnt]=$values->email;
+                     $remindertype[$cnt]=$values->Remindertype;
+                     $mobno[$cnt]=$values->Mobilenumber;
                      $cnt++;
                 }
             }
         for($i=0;$i<count($vehicleno);$i++)
             {
                 $email=array('email'=>$emailarray[$i],'vehicle'=>$vehicleno[$i]);
-                Mail::send([],$email, function ($message) use ($email)  {
-                    $message->to($email['email']);
-                    $message->subject("Reminder");
-                    $message->setBody('Hi, Goodmorning these is a reminder regarding vehicle service, Your Vehicle Servicing Data with vehicle number: '.$email['vehicle'].' is get expired in 7 days');                 
-                 });
+                switch($remindertype[$i])
+                {
+                    case 'sms':
+                        Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Goodmorning these is a reminder regarding vehicle service, Your Vehicle Servicing Data with vehicle number: '.$email['vehicle'].' is get expired in 7 days'
+                        ]);
+                    break;
+                    case 'email':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Goodmorning these is a reminder regarding vehicle service, Your Vehicle Servicing Data with vehicle number: '.$email['vehicle'].' is get expired in 7 days');                 
+                         });
+                    break;
+                    case 'smsemail':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Goodmorning these is a reminder regarding vehicle service, Your Vehicle Servicing Data with vehicle number: '.$email['vehicle'].' is get expired in 7 days');                 
+                         });
+                         Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Goodmorning these is a reminder regarding vehicle service, Your Vehicle Servicing Data with vehicle number: '.$email['vehicle'].' is get expired in 7 days'
+                        ]);
+                    break;
+                }
             }
             echo "completed";
     }
     public function licReminder()
     {
-        $data=DB::connection('mysql')->select("select DateOfPurchase,ReminderFrequency,Policynumber,PremiumPayingTerm,l_i_c_s.email from l_i_c_s,users where users.email=l_i_c_s.email and users.status='active'");
+        $data=DB::connection('mysql')->select("select users.Mobilenumber,users.Remindertype,DateOfPurchase,ReminderFrequency,Policynumber,PremiumPayingTerm,l_i_c_s.email from l_i_c_s,users where users.email=l_i_c_s.email and users.status='active'");
         $policyno=array();
         $pptarr=array();
         $cnt=0;
         $emailarray=array();
+        $remindertype=array();
+        $mobno=array();
         $emailsubject='';
         $emailmsg='';
         foreach($data as $values)
@@ -253,6 +360,8 @@ class map extends Model
                          $policyno[$cnt]=$values->Policynumber;
                          $emailarray[$cnt]=$values->email;
                          $pptarr[$cnt]='Monthly';
+                         $remindertype[$cnt]=$values->Remindertype;
+                         $mobno[$cnt]=$values->Mobilenumber;
                          $cnt++;
                     }
                     break;
@@ -262,6 +371,8 @@ class map extends Model
                         $policyno[$cnt]=$values->Policynumber;
                         $emailarray[$cnt]=$values->email;
                         $pptarr[$cnt]='Quarterly';
+                        $remindertype[$cnt]=$values->Remindertype;
+                        $mobno[$cnt]=$values->Mobilenumber;
                         $cnt++;
                     }
                     break;
@@ -271,6 +382,8 @@ class map extends Model
                         $policyno[$cnt]=$values->Policynumber;
                         $emailarray[$cnt]=$values->email;
                         $pptarr[$cnt]='HalfYear';
+                        $remindertype[$cnt]=$values->Remindertype;
+                        $mobno[$cnt]=$values->Mobilenumber;
                         $cnt++;
                     }
                     break;
@@ -279,6 +392,8 @@ class map extends Model
                         $policyno[$cnt]=$values->Policynumber;
                         $emailarray[$cnt]=$values->email;
                         $pptarr[$cnt]='Yearly';
+                        $remindertype[$cnt]=$values->Remindertype;
+                        $mobno[$cnt]=$values->Mobilenumber;
                         $cnt++;
                     }
                     break;
@@ -288,21 +403,47 @@ class map extends Model
         for($i=0;$i<count($policyno);$i++)
             {
                 $email=array('email'=>$emailarray[$i],'ppt'=>$pptarr[$i],'policy'=>$policyno[$i]);
-                Mail::send([],$email, function ($message) use ($email)  {
-                    $message->to($email['email']);
-                    $message->subject("Reminder");
-                    $message->setBody('Hi, Good Morning these is a reminder regarding LIC Policy, Your LIC policy with policy number: '.$email['policy'].' with Premium Paying Term :'.$email['ppt'].' is near please pay');                 
-                 });
+                switch($remindertype[$i])
+                {
+                    case 'sms':
+                        Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Good Morning these is a reminder regarding LIC Policy, Your LIC policy with policy number: '.$email['policy'].' with Premium Paying Term :'.$email['ppt'].' is near please pay'
+                        ]);
+                    break;
+                    case 'email':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Good Morning these is a reminder regarding LIC Policy, Your LIC policy with policy number: '.$email['policy'].' with Premium Paying Term :'.$email['ppt'].' is near please pay');                 
+                         });
+                    break;
+                    case 'smsemail':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Good Morning these is a reminder regarding LIC Policy, Your LIC policy with policy number: '.$email['policy'].' with Premium Paying Term :'.$email['ppt'].' is near please pay');                 
+                         });
+                         Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Good Morning these is a reminder regarding LIC Policy, Your LIC policy with policy number: '.$email['policy'].' with Premium Paying Term :'.$email['ppt'].' is near please pay'
+                        ]);
+                    break;
+                }
             }
             echo "completed";
     }
     public function vaccinReminder()
     {
-        $data=DB::connection('mysql')->select("select v.VaccinationName,v.VaccinationDuedate,c.ChildName,c.email from children_vaccins c,add_vaccinations v,users u where c.ChildId=v.ChildId and u.status='active'");
+        $data=DB::connection('mysql')->select("select u.Mobilenumber,u.Remindertype,v.VaccinationName,v.VaccinationDuedate,c.ChildName,c.email from children_vaccins c,add_vaccinations v,users u where c.ChildId=v.ChildId and u.status='active'");
         $vaccinname=array();
         $cnt=0;
         $emailarray=array();
         $childname=array();
+        $remindertype=array();
+        $mobno=array();
         $emailsubject='';
         $emailmsg='';
         foreach($data as $values)
@@ -319,17 +460,43 @@ class map extends Model
                      $vaccinname[$cnt]=$values->VaccinationName;
                      $emailarray[$cnt]=$values->email;
                      $childname[$cnt]=$values->ChildName;
+                     $remindertype[$cnt]=$values->Remindertype;
+                     $mobno[$cnt]=$values->Mobilenumber;
                      $cnt++;
                 }
             }
         for($i=0;$i<count($vaccinname);$i++)
             {
                 $email=array('email'=>$emailarray[$i],'vaccin'=>$vaccinname[$i],'child'=>$childname[$i]);
-                Mail::send([],$email, function ($message) use ($email)  {
-                    $message->to($email['email']);
-                    $message->subject("Reminder");
-                    $message->setBody('Hi, Good Morning these is a reminder regarding Children Vaccination, Your Child vaccination with Child name : '.$email['child'].' and Vaccination Name : '.$email['vaccin'].'  will be expired in 7 days please Vaccinate your child.');                 
-                 });
+                switch($remindertype[$i])
+                {
+                    case 'sms':
+                        Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Good Morning these is a reminder regarding Children Vaccination, Your Child vaccination with Child name : '.$email['child'].' and Vaccination Name : '.$email['vaccin'].'  will be expired in 7 days please Vaccinate your child.'
+                        ]);
+                    break;
+                    case 'email':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Good Morning these is a reminder regarding Children Vaccination, Your Child vaccination with Child name : '.$email['child'].' and Vaccination Name : '.$email['vaccin'].'  will be expired in 7 days please Vaccinate your child.');                 
+                         });
+                    break;
+                    case 'smsemail':
+                        Mail::send([],$email, function ($message) use ($email)  {
+                            $message->to($email['email']);
+                            $message->subject("Reminder");
+                            $message->setBody('Hi, Good Morning these is a reminder regarding Children Vaccination, Your Child vaccination with Child name : '.$email['child'].' and Vaccination Name : '.$email['vaccin'].'  will be expired in 7 days please Vaccinate your child.');                 
+                         });
+                         Nexmo::message()->send([
+                            'to'   => '+91 '.$mobno[$i],
+                            'from' => '+91 74833 34815 ',
+                            'text' => 'Hi, Good Morning these is a reminder regarding Children Vaccination, Your Child vaccination with Child name : '.$email['child'].' and Vaccination Name : '.$email['vaccin'].'  will be expired in 7 days please Vaccinate your child.'
+                        ]);
+                    break;
+                }
             }
             echo "completed";
     }

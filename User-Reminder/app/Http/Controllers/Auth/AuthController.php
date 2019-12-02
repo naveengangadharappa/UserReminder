@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\model\map;
 use Mail;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class AuthController extends Controller
 {
@@ -67,18 +68,21 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        $flgs='false';
         $Email=$data['email'];
         try{
       $mailflg=Mail::send('Registeremail', $data, function($message) use ($data) {
          $message->to($data['email']);
-         $message->subject('Esds Customer Reminder Service Registartion ');
+         $message->subject('Esds Customer Reminder Service Registartion');
       });
+      Nexmo::message()->send([
+        'to'   => '+91 '.$data['Mobilenumber'],
+        'from' => '+91 74833 34815 ',
+        'text' => 'Esds Customer Reminder Service Registartion process is complete.'
+    ]);
     }
       catch(\Exception $e)
     {
-        echo "Please Provide Valid Email Address " ;
-        $flgs='false';
+        echo "Please Provide Valid Email Address and Mobile Number " ;
         return Validator::make($data, [
         ]);
     }
@@ -88,6 +92,7 @@ class AuthController extends Controller
       'email' => $data['email'],
       'roles'=>$data['role'],
       'status'=>'active',
+      'Remindertype'=>'sms',
       'password' => bcrypt($data['password']),
   ]);
     }

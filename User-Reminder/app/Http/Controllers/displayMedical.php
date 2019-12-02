@@ -108,4 +108,12 @@ class displayMedical extends Controller
         $data=DB::connection('mysql')->update("update users set status='active' where email=?",[$email]);
         return redirect('/CustomerManagement/,0')->with('success',"User Actived");
     }
+    public function ChangeReminder($email)
+    {
+        $emailarry=explode(",",$email);
+        $id=$emailarry[0];
+        $choice=$emailarry[1];
+        $data=DB::connection('mysql')->update("update users set Remindertype=? where email=?",[$choice,$id]);
+        return redirect('/NavigationOption');
+    }
 }

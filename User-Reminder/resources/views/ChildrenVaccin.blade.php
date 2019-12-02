@@ -68,7 +68,7 @@
                             <label for="ChildName" class="col-md-4 control-label">Child Name</label>
 
                             <div class="col-md-6">
-                                <input id="ChildName" type="text" class="form-control" name="ChildName" value="{{ $Value->ChildName }}">
+                                <input id="ChildName" type="text" class="form-control" name="ChildName" value="{{ $Value->ChildName }}" readonly>
 
                                 @if ($errors->has('ChildName'))
                                     <span class="help-block">

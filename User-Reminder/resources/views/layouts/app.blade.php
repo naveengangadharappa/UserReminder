@@ -60,7 +60,6 @@
                     <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                         <li><a href="{{ url('/CustomerManagement/,0') }}">Customer Management</a></li>
-                        <li><a href="#">Reminder category Management</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {{ Auth::user()->name }} Admin <span class="caret"></span>
@@ -74,13 +73,21 @@
                     @endif
                     @if ( Auth::user()->roles=='user')
                     <li><a href="{{ url('/Mediclaim/,0') }}">Add Reminder</a></li>
+                    <li style="padding-top:8px;"><select name="choice" id="choice" class="form-control" style="width:125px;background-color:#e7e7e7;">
+                    <option value="{{ Auth::user()->Remindertype }}">@if(Auth::user()->Remindertype=="smsemail") Email & SMS @else {{ strtoupper(Auth::user()->Remindertype)}} @endif  </option>
+                    <option value="email">EMAIL</option>
+                    <option value="sms">SMS</option>
+                    <option value="smsemail">Email & SMS</option>
+                    </select></li>
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                <img src="/document/prfl.jpg" style="border-radius:50%; width:16%;height:16%;"> {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="/EditProfile/{{Auth::user()->email}}"><i class="fa fa-btn fa-sign-out"></i>Edit Profile</a></li>
                             </ul>
                         </li>
                         @endif
@@ -95,5 +102,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+   <script>
+    $(document).ready(function() {
+    $("#choice").on('change',function() {
+            console.log("entered");
+            var choice = $("#choice option:selected").html();
+            alert(choice);
+    }); 
+});
+    </script>
 </body>
 </html>
