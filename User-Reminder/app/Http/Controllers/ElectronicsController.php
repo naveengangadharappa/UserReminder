@@ -8,6 +8,7 @@ use App\Electronics;
 use App\model\map;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class ElectronicsController extends Controller
 {
@@ -29,13 +30,10 @@ class ElectronicsController extends Controller
             $head='Electronic Goods Registration';
             return view('ElectronicGoods',compact('data','flg','head'));
         }
-       // return view('ElectronicGoods');
     }
 
     public function postdata(Request $request)
     {
-        try{
-            
         if($request->get('choice')=='insert')
        { 
         $this->validate($request,[
@@ -60,10 +58,7 @@ class ElectronicsController extends Controller
 
         $Email=$request->get('email');
         $mapdata=$request->get('Itemnumber');
-        /*$choice="item";
-        $map=new map();
-        $map->updatemap($Email,$choice,$mapdata);*/
-
+        
         Electronics::create([
             'email'=>$Email,
             'ItemName' => $request->get('ItemName'),
@@ -82,28 +77,164 @@ class ElectronicsController extends Controller
             'ReminderFrequency' => 'required',
             'WarrantyPeriod' => 'required',
         ]);
-        if($request->get('UploadBills')=='' and $request->get('WarrantyCard')=='')
-        {
-            echo $request->get('UploadBills');
+        try{
+            $choice="";
+            if($request->hasFile('UploadBills'))
+            {
+                $choice="UploadBills";
+            }
+            if($request->hasFile('WarrantyCard'))
+            {
+                $choice="WarrantyCard";
+            }
+            if($request->hasFile('WarrantyCard') && $request->hasFile('UploadBills') )
+            {
+                $choice="both";
+            }
+            switch($choice)
+            {
+                case "UploadBills":
+                        $policynumber=$request->get('Itemnumber');
+                        $documentbill=$request->file('UploadBills');
+                        $documentnamebill=$policynumber.".".$documentbill->getClientOriginalExtension();
+                        $documentname1=public_path("document\Electronics\bills")."/".$policynumber.".jpg";
+                        $documentname2=public_path("document\Electronics\bills")."/".$policynumber.".png";
+                        $documentname3=public_path("document\Electronics\bills")."/".$policynumber.".pdf";
+                        $filename  = '';
+                        $flg=0;
+                        if(File::exists($documentname1))
+                        {
+                            $flg=1;
+                        }
+                        if(File::exists($documentname2))
+                        {
+                            $flg=2;  
+                        }
+                        if(File::exists($documentname3))
+                        {
+                            $flg=3; 
+                        }
+                        switch($flg)
+                        {
+                            case 1:$filename=$documentname1;
+                            break;
+                            case 2:$filename=$documentname2;
+                            break;
+                            case 3:$filename=$documentname3;
+                            break;
+                        }
+                                File::delete($filename);
+                                $documentbill->move(public_path("document\Electronics\bills"),$documentnamebill);
+                break;
+                case "WarrantyCard":
+                        $policynumber=$request->get('Itemnumber');
+                        $documentwarrenty=$request->file('WarrantyCard');
+                        $documentnamewarrenty=$policynumber.".".$documentwarrenty->getClientOriginalExtension();
+                        $documentname1=public_path("document\Electronics\warrenty")."/".$policynumber.".jpg";
+                        $documentname2=public_path("document\Electronics\warrenty")."/".$policynumber.".png";
+                        $documentname3=public_path("document\Electronics\warrenty")."/".$policynumber.".pdf";
+                        $filename  = '';
+                        $flg=0;
+                        if(File::exists($documentname1))
+                        {
+                            $flg=1;
+                        }
+                        if(File::exists($documentname2))
+                        {
+                            $flg=2;  
+                        }
+                        if(File::exists($documentname3))
+                        {
+                            $flg=3; 
+                        }
+                        switch($flg)
+                        {
+                            case 1:$filename=$documentname1;
+                            break;
+                            case 2:$filename=$documentname2;
+                            break;
+                            case 3:$filename=$documentname3;
+                            break;
+                        }
+                                File::delete($filename);
+                                $documentwarrenty->move(public_path("document\Electronics\warrenty"),$documentnamewarrenty);        
+                break;
+                case "both":
+                    $policynumber=$request->get('Itemnumber');
+                    $documentbill=$request->file('UploadBills');
+                    $documentnamebill=$policynumber.".".$documentbill->getClientOriginalExtension();
+                    $documentname1=public_path("document\Electronics\bills")."/".$policynumber.".jpg";
+                    $documentname2=public_path("document\Electronics\bills")."/".$policynumber.".png";
+                    $documentname3=public_path("document\Electronics\bills")."/".$policynumber.".pdf";
+                    $filename  = '';
+                    $flg=0;
+                    if(File::exists($documentname1))
+                    {
+                        $flg=1;
+                    }
+                    if(File::exists($documentname2))
+                    {
+                        $flg=2;  
+                    }
+                    if(File::exists($documentname3))
+                    {
+                        $flg=3; 
+                    }
+                    switch($flg)
+                    {
+                        case 1:$filename=$documentname1;
+                        break;
+                        case 2:$filename=$documentname2;
+                        break;
+                        case 3:$filename=$documentname3;
+                        break;
+                    }
+                            File::delete($filename);
+                            $documentbill->move(public_path("document\Electronics\bills"),$documentnamebill);
+                
+                            $policynumber=$request->get('Itemnumber');
+                            $documentwarrenty=$request->file('WarrantyCard');
+                            $documentnamewarrenty=$policynumber.".".$documentwarrenty->getClientOriginalExtension();
+                            $documentname1=public_path("document\Electronics\warrenty")."/".$policynumber.".jpg";
+                            $documentname2=public_path("document\Electronics\warrenty")."/".$policynumber.".png";
+                            $documentname3=public_path("document\Electronics\warrenty")."/".$policynumber.".pdf";
+                            $filename  = '';
+                            $flg=0;
+                            if(File::exists($documentname1))
+                            {
+                                $flg=1;
+                            }
+                            if(File::exists($documentname2))
+                            {
+                                $flg=2;  
+                            }
+                            if(File::exists($documentname3))
+                            {
+                                $flg=3; 
+                            }
+                            switch($flg)
+                            {
+                                case 1:$filename=$documentname1;
+                                break;
+                                case 2:$filename=$documentname2;
+                                break;
+                                case 3:$filename=$documentname3;
+                                break;
+                            }
+                                    File::delete($filename);
+                                    $documentwarrenty->move(public_path("document\Electronics\warrenty"),$documentnamewarrenty);                
+                break;
+            }
             $id=$request->get('Itemnumber');
             DB::connection('mysql')->select("update electronics set ItemName =?,DateOfPurchase=?,ReminderFrequency=?,WarrantyPeriod=? where Itemnumber=?",[$request->get('ItemName'),$request->get('DateOfPurchase'),$request->get('ReminderFrequency'),$request->get('WarrantyPeriod'),$id]);  
+            return redirect('/Electronics/,0')->with('success',"Updation successfull");
         }
-        else{
-            echo "hii entered";
-            $policynumber=$request->get('PolicyNumber');
-        $document=$request->file('PolicyDocument');
-        $documentname=$policynumber.".".$document->getClientOriginalExtension();
-        /*$docpath=public_path("document\mediclaim")."/".$documentname;
-        unlink($docpath);*/
-        $document->move(public_path("document\mediclaim"),$documentname);
-        }
-        return redirect('/Electronics/,0')->with('success',"Updation successfull");
+        catch(Exception $e)  
+        {
+        echo "Exception in MediClaim = " .$e;
+        return redirect('/Electronics/,0');
+        }  
+       
        }
-    }
-    catch(Exception $e)  
-{
-echo "Exception in MediClaim = " .$e;
-return redirect('/Electronics/,0');
-}  
     }
 }

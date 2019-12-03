@@ -8,6 +8,7 @@ use App\Mediclaim;
 use App\Http\Requests;
 use App\model\map;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class MediclaimController extends Controller
 {
@@ -34,8 +35,7 @@ class MediclaimController extends Controller
 
     public function postdata(Request $request)
     {
-        try{
-
+        
         if($request->get('choice')=='insert')
        { 
         $this->validate($request,[
@@ -46,6 +46,7 @@ class MediclaimController extends Controller
             'PremiumAmount' => 'required',
             'PolicyDocument'=> 'required|mimes:jpeg,jpg,png,pdf|max:2048',
         ]);
+        try{
         $policynumber=$request->get('PolicyNumber');
         $document=$request->file('PolicyDocument');
         $documentname=$policynumber.".".$document->getClientOriginalExtension();
@@ -64,6 +65,12 @@ class MediclaimController extends Controller
             ]); 
             return redirect('/Mediclaim/,0')->with('success',"Policy Registration successfull"); 
             }
+            catch(\Exception $e)  
+            {
+                echo "Exception in MediClaim = " .$e;
+                return redirect('/Mediclaim/,0');
+            }
+        }
             else{
                 $this->validate($request,[
                     'PolicyNumber' => 'required',
@@ -72,29 +79,56 @@ class MediclaimController extends Controller
                     'ReminderFrequency' => 'required',
                     'PremiumAmount' => 'required',
                 ]);
-               
-                if($request->get('PolicyDocument')=='')
+               try{
+                if($request->hasFile('PolicyDocument'))
                 {
+                $policynumber=$request->get('PolicyNumber');
+                $document=$request->file('PolicyDocument');
+                $documentname=$policynumber.".".$document->getClientOriginalExtension();
+                $documentname1=public_path("document\mediclaim")."/".$policynumber.".jpg";
+                $documentname2=public_path("document\mediclaim")."/".$policynumber.".png";
+                $documentname3=public_path("document\mediclaim")."/".$policynumber.".pdf";
+                $filename  = public_path("document\mediclaim")."/".$documentname;
+                $flg=0;
+                if(File::exists($documentname1))
+                {
+                    $flg=1;
+                }
+                if(File::exists($documentname2))
+                {
+                    $flg=2;  
+                }
+                if(File::exists($documentname3))
+                {
+                    $flg=3; 
+                }
+                switch($flg)
+                {
+                    case 1:$filename=$documentname1;
+                    break;
+                    case 2:$filename=$documentname2;
+                    break;
+                    case 3:$filename=$documentname3;
+                    break;
+                }
+                        File::delete($filename);
+                        $document->move(public_path("document\mediclaim"),$documentname);
+                        $id=$request->get('PolicyNumber');
+                        DB::connection('mysql')->select("update mediclaims set MediclaimCompany =?,DateOfPurchase=?,ReminderFrequency=?,PremiumAmount=? where PolicyNumber=?",[$request->get('MediclaimCompany'),$request->get('DateOfPurchase'),$request->get('ReminderFrequency'),$request->get('PremiumAmount'),$id]); 
+                }
+                else{
                     $id=$request->get('PolicyNumber');
                     DB::connection('mysql')->select("update mediclaims set MediclaimCompany =?,DateOfPurchase=?,ReminderFrequency=?,PremiumAmount=? where PolicyNumber=?",[$request->get('MediclaimCompany'),$request->get('DateOfPurchase'),$request->get('ReminderFrequency'),$request->get('PremiumAmount'),$id]);  
                 }
-                else{
-                    echo "hii entered";
-                    $policynumber=$request->get('PolicyNumber');
-                $document=$request->file('PolicyDocument');
-                $documentname=$policynumber.".".$document->getClientOriginalExtension();
-                /*$docpath=public_path("document\mediclaim")."/".$documentname;
-                unlink($docpath);*/
-                $document->move(public_path("document\mediclaim"),$documentname);
-                }
-                return redirect('/Mediclaim/,0')->with('success',"Policy Details updated successfull");  
+                    return redirect('/Mediclaim/,0')->with('success',"Policy Details updated successfull");    
+            }
+            catch(\Exception $e)  
+            {
+                echo "Exception in MediClaim = " .$e;
+                return redirect('/Mediclaim/,0');
             }
         }
-            catch(\Exception $e)  
-    {
-        echo "Exception in MediClaim = " .$e;
-        return redirect('/Mediclaim/,0');
-    }
+       
             
 }
 }

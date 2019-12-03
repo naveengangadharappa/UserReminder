@@ -8,6 +8,7 @@ use App\LIC;
 use App\Http\Requests;
 use App\model\map;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class LICController extends Controller
 {
@@ -34,9 +35,6 @@ class LICController extends Controller
 
     public function postdata(Request $request)
     {
-        try{
-            
-       
         if($request->get('choice')=='insert')
        { 
         $this->validate($request,[
@@ -58,10 +56,6 @@ class LICController extends Controller
 
         $Email=$request->get('email');
         $mapdata=$request->get('Policynumber');
-        /*$choice="Lic";
-        $map=new map();
-        echo $Email;
-        $map->updatemap($Email,$choice,$mapdata);*/
 
         LIC::create([
             'email'=>$Email,
@@ -87,27 +81,54 @@ class LICController extends Controller
             'PremiumPayingTerm' => 'required',
             'ReminderFrequency' => 'required',
         ]);
-        if($request->get('PolicyDocument')=='')
+        try{
+        if($request->hasFile('PolicyDocument'))
         {
-            echo $request->get('PolicyDocument');
-            $id=$request->get('Policynumber');
-            DB::connection('mysql')->select("update l_i_c_s set PolicyHolder =?,LicPlanName=?,DateOfPurchase=?,SumAssuredAmount=?,PremiumAmount=?,PremiumPayingTerm=?,ReminderFrequency=? where Policynumber=?",[$request->get('PolicyHolder'),$request->get('LicPlanName'),$request->get('DateOfPurchase'),$request->get('SumAssuredAmount'),$request->get('PremiumAmount'),$request->get('PremiumPayingTerm'),$request->get('ReminderFrequency'),$id]);  
-        }
-        else{
             $policynumber=$request->get('Policynumber');
         $document=$request->file('PolicyDocument');
         $documentname=$policynumber.".".$document->getClientOriginalExtension();
-        /*$docpath=public_path("document\mediclaim")."/".$documentname;
-        unlink($docpath);*/
-        $document->move(public_path("document\Lic"),$documentname);
+            $documentname1=public_path("document\Lic")."/".$policynumber.".jpg";
+                $documentname2=public_path("document\Lic")."/".$policynumber.".png";
+                $documentname3=public_path("document\Lic")."/".$policynumber.".pdf";
+                $filename  = public_path("document\Lic")."/".$documentname;
+                $flg=0;
+                if(File::exists($documentname1))
+                {
+                    $flg=1;
+                }
+                if(File::exists($documentname2))
+                {
+                    $flg=2;  
+                }
+                if(File::exists($documentname3))
+                {
+                    $flg=3; 
+                }
+                switch($flg)
+                {
+                    case 1:$filename=$documentname1;
+                    break;
+                    case 2:$filename=$documentname2;
+                    break;
+                    case 3:$filename=$documentname3;
+                    break;
+                }
+                File::delete($filename);
+                $document->move(public_path("document\Lic"),$documentname);
+                $id=$request->get('Policynumber');
+                DB::connection('mysql')->select("update l_i_c_s set PolicyHolder =?,LicPlanName=?,DateOfPurchase=?,SumAssuredAmount=?,PremiumAmount=?,PremiumPayingTerm=?,ReminderFrequency=? where Policynumber=?",[$request->get('PolicyHolder'),$request->get('LicPlanName'),$request->get('DateOfPurchase'),$request->get('SumAssuredAmount'),$request->get('PremiumAmount'),$request->get('PremiumPayingTerm'),$request->get('ReminderFrequency'),$id]);  
+        }
+        else{
+            $id=$request->get('Policynumber');
+            DB::connection('mysql')->select("update l_i_c_s set PolicyHolder =?,LicPlanName=?,DateOfPurchase=?,SumAssuredAmount=?,PremiumAmount=?,PremiumPayingTerm=?,ReminderFrequency=? where Policynumber=?",[$request->get('PolicyHolder'),$request->get('LicPlanName'),$request->get('DateOfPurchase'),$request->get('SumAssuredAmount'),$request->get('PremiumAmount'),$request->get('PremiumPayingTerm'),$request->get('ReminderFrequency'),$id]);  
         }
         return redirect('/LIC/,0')->with('success',"Policy Details updated successfull");
        } 
-    }
-    catch(Exception $e)  
+    catch(\Exception $e)  
     {
         echo "Exception in LIC = " .$e;
         return redirect('/LIC/,0');
     }
     }
+}
 }
