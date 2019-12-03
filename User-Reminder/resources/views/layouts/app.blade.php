@@ -73,13 +73,29 @@
                     @endif
                     @if ( Auth::user()->roles=='user')
                     <li><a href="{{ url('/Mediclaim/,0') }}">Add Reminder</a></li>
-                    <li style="padding-top:8px;"><select name="choice" id="choice" class="form-control" style="width:125px;height:30px;background-color:#e7e7e7;">
-                    <option value="{{ Auth::user()->Remindertype }}">@if(Auth::user()->Remindertype=="smsemail") Email & SMS @else {{ strtoupper(Auth::user()->Remindertype)}} @endif  </option>
-                    <option value="email">EMAIL</option>
-                    <option value="sms">SMS</option>
-                    <option value="smsemail">Email & SMS</option>
-                    </select></li>
 
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                               @if(Auth::user()->Remindertype=="smsemail") Email & SMS @else {{ strtoupper(Auth::user()->Remindertype)}} @endif <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                            @if(Auth::user()->Remindertype=="email")
+                            <li><a href="/ChangeReminder/{{Auth::user()->email}},sms"><i class="fa fa-btn fa-sign-out"></i>SMS</a></li>
+                            <li><a href="/ChangeReminder/{{Auth::user()->email}},smsemail"><i class="fa fa-btn fa-sign-out"></i>SMS & EMAIL</a></li>
+                            @endif
+                            @if(Auth::user()->Remindertype=="sms")
+                            <li><a href="/ChangeReminder/{{Auth::user()->email}},email"><i class="fa fa-btn fa-sign-out"></i>EMAIL</a></li>
+                            <li><a href="/ChangeReminder/{{Auth::user()->email}},smsemail"><i class="fa fa-btn fa-sign-out"></i>SMS & EMAIL</a></li>
+                            @endif
+                            @if(Auth::user()->Remindertype=="smsemail")
+                            <li><a href="/ChangeReminder/{{Auth::user()->email}},email"><i class="fa fa-btn fa-sign-out"></i>EMAIL</a></li>
+                            <li><a href="/ChangeReminder/{{Auth::user()->email}},sms"><i class="fa fa-btn fa-sign-out"></i>SMS</a></li>
+                            @endif
+                            </ul>
+                        </li>
+
+
+                    
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 <img src="/document/prfl.jpg" style="border-radius:50%; width:16%;height:16%;"> {{ Auth::user()->name }} <span class="caret"></span>
@@ -108,7 +124,6 @@
     $("#choice").on('change',function() {
             console.log("entered");
             var choice = $("#choice option:selected").html();
-            alert(choice);
     }); 
 });
     </script>

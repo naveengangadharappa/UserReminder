@@ -114,6 +114,6 @@ class displayMedical extends Controller
         $id=$emailarry[0];
         $choice=$emailarry[1];
         $data=DB::connection('mysql')->update("update users set Remindertype=? where email=?",[$choice,$id]);
-        return redirect('/NavigationOption');
+        return redirect('/Mediclaim/,0');
     }
 }
