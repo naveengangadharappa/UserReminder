@@ -15,11 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
-
-Route::get('/NavigationOption', 'NavigationOptionController@index');
+Route::group(['middleware' => 'prevent-back-history'],function(){
+    
+    Route::get('/home', 'HomeController@index');
+    
+    Route::get('/NavigationOption', 'NavigationOptionController@index');
 
 Route::get('/Adminlogin', 'auth\AdminController@index');
 
@@ -78,5 +78,11 @@ Route::post('/getchild', 'AddVaccinationController@getchild');
 Route::get('/EditProfile/{email}', 'EditProfile@index');
 
 Route::post('/UpdateProfile', 'EditProfile@UpdateProfile');
+
+  });
+
+Route::auth();
+
+
 
 

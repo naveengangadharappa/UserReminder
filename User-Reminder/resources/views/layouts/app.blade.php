@@ -73,7 +73,7 @@
                     @endif
                     @if ( Auth::user()->roles=='user')
                     <li><a href="{{ url('/Mediclaim/,0') }}">Add Reminder</a></li>
-                    <li style="padding-top:8px;"><select name="choice" id="choice" class="form-control" style="width:125px;background-color:#e7e7e7;">
+                    <li style="padding-top:8px;"><select name="choice" id="choice" class="form-control" style="width:125px;height:30px;background-color:#e7e7e7;">
                     <option value="{{ Auth::user()->Remindertype }}">@if(Auth::user()->Remindertype=="smsemail") Email & SMS @else {{ strtoupper(Auth::user()->Remindertype)}} @endif  </option>
                     <option value="email">EMAIL</option>
                     <option value="sms">SMS</option>

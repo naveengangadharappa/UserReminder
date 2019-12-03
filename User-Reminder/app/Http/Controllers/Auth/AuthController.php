@@ -92,7 +92,7 @@ class AuthController extends Controller
       'email' => $data['email'],
       'roles'=>$data['role'],
       'status'=>'active',
-      'Remindertype'=>'sms',
+      'Remindertype'=>'email',
       'password' => bcrypt($data['password']),
   ]);
     }
