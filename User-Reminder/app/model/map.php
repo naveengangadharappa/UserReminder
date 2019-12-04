@@ -283,13 +283,8 @@ class map extends Model
                 $c1=$intverl->format("%a");
                 $c2=$intverl1->format("%a");
                 $c3=$intverl2->format("%a");
-                if($c1>0){$c=$c1;}
-                elseif($c2>0){$c=$c2;}
-                elseif($c3>0){$c=$c3;}
-                else{ continue;}
-                $ct=0;
-                //if(($c+365)-365==$values->ReminderFrequency)
-                if($c==7)
+                // sending a reminder 7 days/1 week before
+                if($c1==7||$c2==7||$c3=7)
                 {
                     $vehicleno[$cnt]=$values->VehicleNumber;
                      $emailarray[$cnt]=$values->email;
@@ -352,9 +347,10 @@ class map extends Model
                 $intverl=date_diff($date1,$date2);
                 $c=$intverl->format("%a");
                 $ppt=$values->PremiumPayingTerm;
+
                 switch($ppt)
                 {
-                    case 'Monthly':if((30-$c)==$values->ReminderFrequency||(59-$c)==($values->ReminderFrequency)||(90-$c)==($values->ReminderFrequency)||(120-$c)==($values->ReminderFrequency)||(151-$c)==($values->ReminderFrequency)||(182-$c)==($values->ReminderFrequency)||(213-$c)==$values->ReminderFrequency||(243-$c)==($values->ReminderFrequency)||(273-$c)==($values->ReminderFrequency)||(304-$c)==($values->ReminderFrequency)||(334-$c)==($values->ReminderFrequency)||(365-$c)==($values->ReminderFrequency))
+                    case 'Monthly':if((31-$c)==$values->ReminderFrequency||(59-$c)==($values->ReminderFrequency)||(90-$c)==($values->ReminderFrequency)||(120-$c)==($values->ReminderFrequency)||(151-$c)==($values->ReminderFrequency)||(181-$c)==($values->ReminderFrequency)||(212-$c)==$values->ReminderFrequency||(243-$c)==($values->ReminderFrequency)||(273-$c)==($values->ReminderFrequency)||(304-$c)==($values->ReminderFrequency)||(334-$c)==($values->ReminderFrequency)||(365-$c)==($values->ReminderFrequency))
                     {
                         echo "Monthly entered";
                          $policyno[$cnt]=$values->Policynumber;
@@ -365,7 +361,7 @@ class map extends Model
                          $cnt++;
                     }
                     break;
-                    case 'Quarterly':if((91-$c)==$values->ReminderFrequency||(182-$c)==($values->ReminderFrequency)||(273-$c)==($values->ReminderFrequency)||(365-$c)==($values->ReminderFrequency))
+                    case 'Quarterly':if((90-$c)==$values->ReminderFrequency||(181-$c)==($values->ReminderFrequency)||(273-$c)==($values->ReminderFrequency)||(365-$c)==($values->ReminderFrequency))
                     {
                         echo "Quarterly entered";
                         $policyno[$cnt]=$values->Policynumber;
@@ -454,6 +450,8 @@ class map extends Model
                 $intverl=date_diff($date1,$date2);
                 $c=$intverl->format("%a");
                 //if(($c+365)-365==$values->ReminderFrequency)
+                
+                //Sending reminder 7 days/1 week before
                 if($c==7)
                 {
                     echo "entered";
